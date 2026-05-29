@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LifePet - Meus Pets</title>
+  <link rel="stylesheet" href="/src/css/main.css">
+</head>
+<body>
+  <div id="app"></div>
+
+  <script type="module">
+    import { renderAppLayout } from '/src/layouts/app-layout.js';
+    import { PetCard } from '/src/components/pet-card.js';
+    import { EmptyState } from '/src/components/empty-state.js';
+
+    // Mock data for pets
+    const pets = [
+      { id: '1', name: 'Rex', species: 'Cachorro', breed: 'Golden Retriever', age: '3 anos', nextVaccine: '12/06/2026', statusText: 'Em dia', statusType: 'success' },
+      { id: '2', name: 'Luna', species: 'Gato', breed: 'Siamês', age: '2 anos', nextVaccine: '15/07/2026', statusText: 'Próxima', statusType: 'warning' },
+      { id: '3', name: 'Pipoca', species: 'Cachorro', breed: 'Poodle', age: '5 anos', nextVaccine: '10/05/2026', statusText: 'Atrasado', statusType: 'danger' }
+    ];
+
+    const hasPets = pets.length > 0;
+
+    renderAppLayout({
+      title: 'Meus Pets',
+      content: `
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Meus Pets</h1>
+            <p class="page-subtitle">Gerencie o histórico e a saúde de todos os seus animais.</p>
+          </div>
+          ${hasPets ? `
+            <a href="/pages/adicionar-pet/index.html" class="btn-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+              </svg>
+              Novo Pet
+            </a>
+          ` : ''}
+        </div>
+
+        ${hasPets ? `
+          <div class="section-grid">
+            ${pets.map(pet => PetCard(pet)).join('')}
+            
+            <a href="/pages/adicionar-pet/index.html" class="card flex flex-col items-center justify-center border-dashed hover:border-[var(--color-primary)] hover:bg-gray-50 transition-colors min-h-[220px]">
+              <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mb-3">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[var(--color-text-muted)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+              </div>
+              <h3 class="text-sm font-semibold text-[var(--color-text)]">Cadastrar pet</h3>
+            </a>
+          </div>
+        ` : `
+          ${EmptyState({
+            title: 'Nenhum pet cadastrado',
+            description: 'Você ainda não possui pets na sua conta. Vamos cadastrar o primeiro?',
+            actionText: 'Cadastrar Pet',
+            actionHref: '/pages/adicionar-pet/index.html'
+          })}
+        `}
+      `
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LifePet - Login</title>
+  <link rel="stylesheet" href="/src/css/main.css">
+</head>
+<body>
+  <div id="app"></div>
+  
+  <script type="module">
+    import { renderAuthLayout } from '/src/layouts/auth-layout.js';
+    
+    renderAuthLayout({
+      title: 'LOGIN',
+      subtitle: '',
+      content: `
+        <form class="space-y-6 w-full">
+          <div class="form-group">
+            <label class="form-label">E-mail ou Usuário</label>
+            <input type="email" placeholder="Seu e-mail ou usuário" class="input-field" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Senha</label>
+            <input type="password" placeholder="Sua senha" class="input-field" required>
+          </div>
+          
+          <div class="flex items-center justify-end mt-2">
+            <a href="/pages/recuperar-senha/index.html" class="text-sm font-bold text-[var(--color-accent)] hover:text-white transition-all cursor-pointer">Esqueceu sua senha?</a>
+          </div>
+          
+          <button type="button" onclick="location.href='/pages/dashboard/index.html'" class="btn-primary w-full py-4 text-lg shadow-lg shadow-black/20 mt-4">
+            ENTRAR NO SISTEMA
+          </button>
+        </form>
+        
+        <div class="mt-12 text-center text-white/70 text-sm">
+          Ainda não tem uma conta? 
+          <a href="/pages/cadastro/index.html" class="font-black text-[var(--color-accent)] hover:text-white transition-all ml-1 cursor-pointer uppercase tracking-widest">Cadastre-se</a>
+        </div>
+      `
+    });
+  </script>
+</body>
+</html>

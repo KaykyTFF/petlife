@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LifePet - Notificações</title>
+  <link rel="stylesheet" href="/src/css/main.css">
+</head>
+<body>
+  <div id="app"></div>
+
+  <script type="module">
+    import { renderAppLayout } from '/src/layouts/app-layout.js';
+
+    renderAppLayout({
+      title: 'Notificações',
+      content: `
+        <div class="max-w-3xl mx-auto">
+          <div class="page-header">
+            <div>
+              <h1 class="page-title">Notificações</h1>
+              <p class="page-subtitle">Avisos e lembretes importantes do sistema.</p>
+            </div>
+            <button class="text-sm font-medium text-[var(--color-primary)] hover:underline">Marcar como lidas</button>
+          </div>
+
+          <div class="space-y-4">
+            <!-- Unread Notification -->
+            <div class="card p-5 flex gap-4 bg-green-50/30 border-green-100 hover:border-green-200 transition-colors">
+              <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-success flex-shrink-0 border border-green-100">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center justify-between mb-1">
+                  <h3 class="font-semibold text-[var(--color-text)]">Vacina Aplicada</h3>
+                  <span class="text-xs font-medium text-[var(--color-primary)]">Agora</span>
+                </div>
+                <p class="text-sm text-[var(--color-text-muted)]">A vacina Antirrábica de Rex foi confirmada com sucesso.</p>
+              </div>
+              <div class="w-2 h-2 bg-[var(--color-primary)] rounded-full mt-2"></div>
+            </div>
+
+            <!-- Read Notification -->
+            <div class="card p-5 flex gap-4 hover:border-amber-200 transition-colors">
+              <div class="w-10 h-10 bg-amber-50 rounded-full flex items-center justify-center text-warning flex-shrink-0 border border-amber-100">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center justify-between mb-1">
+                  <h3 class="font-semibold text-[var(--color-text)]">Lembrete de Vermífugo</h3>
+                  <span class="text-xs font-medium text-[var(--color-text-muted)]">Há 2h</span>
+                </div>
+                <p class="text-sm text-[var(--color-text-muted)]">A janela de aplicação do vermífugo para Luna abre amanhã.</p>
+              </div>
+            </div>
+
+            <!-- Urgent Notification -->
+            <div class="card p-5 flex gap-4 hover:border-red-200 transition-colors">
+              <div class="w-10 h-10 bg-red-50 rounded-full flex items-center justify-center text-danger flex-shrink-0 border border-red-100">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+              </div>
+              <div class="flex-1">
+                <div class="flex items-center justify-between mb-1">
+                  <h3 class="font-semibold text-[var(--color-text)]">Atraso Crítico</h3>
+                  <span class="text-xs font-medium text-[var(--color-text-muted)]">Ontem</span>
+                </div>
+                <p class="text-sm text-[var(--color-text-muted)]">O check-up anual de Pipoca está atrasado há 5 dias.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      `
+    });
+  </script>
+</body>
+</html>

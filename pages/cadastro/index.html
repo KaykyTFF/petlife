@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LifePet - Cadastro</title>
+  <link rel="stylesheet" href="/src/css/main.css">
+</head>
+<body>
+  <div id="app"></div>
+  
+  <script type="module">
+    import { renderAuthLayout } from '/src/layouts/auth-layout.js';
+    
+    renderAuthLayout({
+      title: 'CADASTRO',
+      subtitle: 'Comece a cuidar melhor do seu pet agora mesmo.',
+      content: `
+        <form class="space-y-5 w-full">
+          <div class="form-group">
+            <label class="form-label">Nome Completo</label>
+            <input type="text" placeholder="Como devemos te chamar?" class="input-field" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">E-mail</label>
+            <input type="email" placeholder="seu@email.com" class="input-field" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Senha</label>
+            <input type="password" placeholder="Mínimo 8 caracteres" class="input-field" required>
+          </div>
+          
+          <div class="flex items-start gap-3 py-4">
+            <input type="checkbox" id="terms" class="mt-1 w-4 h-4 rounded border-white/20 bg-white/10 text-[var(--color-accent)] focus:ring-[var(--color-accent)] cursor-pointer" required>
+            <label for="terms" class="text-xs text-white/60 leading-relaxed cursor-pointer">
+              Ao criar uma conta, você concorda com nossos 
+              <a href="#" class="text-[var(--color-accent)] font-bold hover:underline transition-all">Termos de Uso</a> e 
+              <a href="#" class="text-[var(--color-accent)] font-bold hover:underline transition-all">Privacidade</a>.
+            </label>
+          </div>
+          
+          <button type="button" onclick="location.href='/pages/confirmar-codigo/index.html'" class="btn-primary w-full py-4 text-lg shadow-lg shadow-black/20 mt-2">
+            CRIAR MINHA CONTA
+          </button>
+        </form>
+        
+        <div class="mt-12 text-center text-white/70 text-sm">
+          Já tem uma conta? 
+          <a href="/pages/login/index.html" class="font-black text-[var(--color-accent)] hover:text-white transition-all ml-1 cursor-pointer uppercase tracking-widest">Fazer Login</a>
+        </div>
+      `
+    });
+  </script>
+</body>
+</html>

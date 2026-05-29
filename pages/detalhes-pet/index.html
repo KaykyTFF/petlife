@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LifePet - Detalhes do Pet</title>
+  <link rel="stylesheet" href="/src/css/main.css">
+</head>
+<body>
+  <div id="app"></div>
+
+  <script type="module">
+    import { renderAppLayout } from '/src/layouts/app-layout.js';
+    import { StatusBadge } from '/src/components/status-badge.js';
+
+    renderAppLayout({
+      title: 'Prontuário',
+      content: `
+        <div class="flex flex-col lg:flex-row gap-8">
+          
+          <!-- Pet Info Sidebar -->
+          <div class="w-full lg:w-80 flex-shrink-0 space-y-6">
+            <div class="card text-center p-8">
+              <div class="w-24 h-24 mx-auto rounded-full overflow-hidden bg-gray-100 mb-4">
+                <img src="https://images.unsplash.com/photo-1543466835-00a7907e9de1?w=200&h=200&fit=crop" class="w-full h-full object-cover">
+              </div>
+              <h2 class="text-xl font-semibold text-[var(--color-text)]">Rex</h2>
+              <p class="text-sm text-[var(--color-text-muted)] mt-1">Golden Retriever • 3 anos</p>
+              
+              <div class="mt-4 flex justify-center">
+                ${StatusBadge('Saúde em dia', 'success')}
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header border-b border-[var(--color-input-border)] pb-4 mb-4">
+                <h3 class="card-title text-sm">Informações Gerais</h3>
+              </div>
+              <div class="space-y-4">
+                <div class="flex justify-between items-center text-sm">
+                  <span class="text-[var(--color-text-muted)] font-medium">Peso</span>
+                  <span class="text-[var(--color-text)] font-semibold">28.5 kg</span>
+                </div>
+                <div class="flex justify-between items-center text-sm">
+                  <span class="text-[var(--color-text-muted)] font-medium">Sexo</span>
+                  <span class="text-[var(--color-text)] font-semibold">Macho</span>
+                </div>
+                <div class="flex justify-between items-center text-sm">
+                  <span class="text-[var(--color-text-muted)] font-medium">Castrado</span>
+                  <span class="text-success font-semibold">Sim</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pet Content Area -->
+          <div class="flex-1 space-y-6">
+            <!-- Tabs -->
+            <div class="border-b border-[var(--color-input-border)]">
+              <nav class="flex gap-6">
+                <button class="pb-3 text-sm font-medium text-[var(--color-primary)] border-b-2 border-[var(--color-primary)]">Vacinas</button>
+                <button class="pb-3 text-sm font-medium text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors border-b-2 border-transparent">Consultas</button>
+                <button class="pb-3 text-sm font-medium text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors border-b-2 border-transparent">Exames</button>
+                <button class="pb-3 text-sm font-medium text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors border-b-2 border-transparent">Histórico</button>
+              </nav>
+            </div>
+
+            <!-- Content -->
+            <div class="card">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                <div>
+                  <h3 class="card-title">Carteira de Vacinação</h3>
+                  <p class="card-description">Histórico de doses e próximos agendamentos.</p>
+                </div>
+                <button class="btn-primary">Registrar Vacina</button>
+              </div>
+
+              <div class="space-y-3">
+                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-[var(--color-input-border)]">
+                  <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center text-success border border-[var(--color-input-border)]">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p class="text-sm font-semibold text-[var(--color-text)]">Antirrábica</p>
+                      <p class="text-xs text-[var(--color-text-muted)] mt-0.5">Aplicada em 10/01/2026 • Clínica VetCare</p>
+                    </div>
+                  </div>
+                  <div class="hidden sm:block">
+                    <span class="status-badge status-success">Aplicada</span>
+                  </div>
+                </div>
+
+                <div class="flex items-center justify-between p-4 bg-white rounded-xl border border-[var(--color-input-border)]">
+                  <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 bg-gray-50 rounded-lg flex items-center justify-center text-warning border border-[var(--color-input-border)]">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <p class="text-sm font-semibold text-[var(--color-text)]">V10 - Reforço Anual</p>
+                      <p class="text-xs text-[var(--color-text-muted)] mt-0.5">Prevista para 12/06/2026</p>
+                    </div>
+                  </div>
+                  <div class="hidden sm:block">
+                    <span class="status-badge status-warning">Pendente</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `
+    });
+  </script>
+</body>
+</html>

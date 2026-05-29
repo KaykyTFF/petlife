@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LifePet - Dashboard</title>
+  <link rel="stylesheet" href="/src/css/main.css">
+</head>
+<body>
+  <div id="app"></div>
+
+  <script type="module">
+    import { renderAppLayout } from '/src/layouts/app-layout.js';
+    import { AlertCard } from '/src/components/alert-card.js';
+    import { PetCard } from '/src/components/pet-card.js';
+
+    renderAppLayout({
+      title: 'Dashboard',
+      content: `
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Olá, Kayky</h1>
+            <p class="page-subtitle">Acompanhe a saúde e os compromissos dos seus pets.</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <button class="btn-secondary hidden md:inline-flex">Relatórios</button>
+            <a href="/pages/adicionar-pet/index.html" class="btn-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+              </svg>
+              Adicionar Pet
+            </a>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          ${AlertCard({ 
+            title: 'Vacinação Pendente', 
+            description: 'Rex precisa da vacina V10 em 5 dias.', 
+            type: 'warning' 
+          })}
+          ${AlertCard({ 
+            title: 'Saúde em dia', 
+            description: 'Luna está com todas as vacinas atualizadas.', 
+            type: 'success' 
+          })}
+          ${AlertCard({ 
+            title: 'Consulta Atrasada', 
+            description: 'Check-up de Pipoca está atrasado.', 
+            type: 'danger' 
+          })}
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div class="lg:col-span-2 space-y-8">
+            <section>
+              <div class="flex items-center justify-between mb-5">
+                <h2 class="text-lg font-semibold text-[var(--color-text)]">Seus Pets</h2>
+                <a href="/pages/meus-pets/index.html" class="text-sm font-medium text-[var(--color-primary)] hover:underline">Ver todos</a>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                ${PetCard({ name: 'Rex', species: 'Cachorro', breed: 'Golden Retriever', age: '3 anos', nextVaccine: '12/06/2026', statusText: 'Em dia', statusType: 'success' })}
+                ${PetCard({ name: 'Luna', species: 'Gato', breed: 'Siamês', age: '2 anos', nextVaccine: '15/07/2026', statusText: 'Próxima', statusType: 'warning' })}
+              </div>
+            </section>
+
+            <section class="card">
+              <div class="card-header">
+                <h3 class="card-title">Atividades Recentes</h3>
+              </div>
+              <div class="space-y-4">
+                ${[1, 2, 3].map((_, i) => `
+                  <div class="flex items-start gap-4 p-3 hover:bg-gray-50 rounded-lg transition-colors cursor-pointer">
+                    <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-[var(--color-text-muted)] flex-shrink-0">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <p class="text-sm font-medium text-[var(--color-text)] truncate">Vacina Antirrábica Aplicada</p>
+                      <p class="text-xs text-[var(--color-text-muted)] mt-0.5">Rex • Clínica VetCare</p>
+                    </div>
+                    <div class="text-right">
+                      <span class="text-xs text-[var(--color-text-muted)]">14:30</span>
+                    </div>
+                  </div>
+                `).join('')}
+              </div>
+            </section>
+          </div>
+
+          <div class="space-y-8">
+            <section class="grid grid-cols-2 gap-4">
+              <div class="card text-center p-5">
+                <span class="text-2xl font-semibold text-[var(--color-text)] block mb-1">3</span>
+                <span class="text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wide">Pets</span>
+              </div>
+              <div class="card text-center p-5">
+                <span class="text-2xl font-semibold text-[var(--color-text)] block mb-1">12</span>
+                <span class="text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wide">Doses</span>
+              </div>
+            </section>
+
+            <section class="card">
+              <div class="card-header">
+                <h3 class="card-title">Próximos Cuidados</h3>
+              </div>
+              <div class="space-y-4">
+                <div class="flex gap-4 items-center">
+                  <div class="w-12 text-center flex-shrink-0">
+                    <span class="block text-xs font-semibold text-[var(--color-text-muted)] uppercase">Mai</span>
+                    <span class="block text-xl font-bold text-[var(--color-text)]">15</span>
+                  </div>
+                  <div class="flex-1 p-3 bg-gray-50 rounded-lg border-l-2 border-[var(--color-primary)]">
+                    <p class="text-sm font-medium text-[var(--color-text)]">Reforço V10</p>
+                    <p class="text-xs text-[var(--color-text-muted)]">Luna</p>
+                  </div>
+                </div>
+                <div class="flex gap-4 items-center">
+                  <div class="w-12 text-center flex-shrink-0">
+                    <span class="block text-xs font-semibold text-[var(--color-text-muted)] uppercase">Mai</span>
+                    <span class="block text-xl font-bold text-[var(--color-text)]">22</span>
+                  </div>
+                  <div class="flex-1 p-3 bg-gray-50 rounded-lg border-l-2 border-[var(--color-warning)]">
+                    <p class="text-sm font-medium text-[var(--color-text)]">Vermífugo</p>
+                    <p class="text-xs text-[var(--color-text-muted)]">Rex</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      `
+    });
+  </script>
+</body>
+</html>

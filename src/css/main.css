@@ -1,0 +1,208 @@
+@import "tailwindcss";
+@import "./components.css";
+@import "./utilities.css";
+
+:root {
+  --color-primary: #007C92;
+  --color-primary-dark: #006B80;
+  --color-primary-deep: #00576A;
+  --color-accent: #00C7D9;
+  --color-button: #009FD1;
+  --color-button-hover: #008DBA;
+  --color-background: #F4F7F8;
+  --color-surface: #FFFFFF;
+  --color-input: #F1F1F3;
+  --color-input-border: #E5E7EB;
+  --color-placeholder: #B8BCC2;
+  --color-text: #0F172A;
+  --color-text-muted: #64748B;
+  --color-white: #FFFFFF;
+  --color-success: #16A34A;
+  --color-warning: #F59E0B;
+  --color-danger: #DC2626;
+  --color-info: #0EA5E9;
+}
+
+@theme {
+  --color-primary: var(--color-primary);
+  --color-primary-dark: var(--color-primary-dark);
+  --color-primary-deep: var(--color-primary-deep);
+  --color-accent: var(--color-accent);
+  --color-button: var(--color-button);
+  --color-button-hover: var(--color-button-hover);
+  --color-background: var(--color-background);
+  --color-surface: var(--color-surface);
+  --color-input: var(--color-input);
+  --color-input-border: var(--color-input-border);
+  --color-placeholder: var(--color-placeholder);
+  --color-text: var(--color-text);
+  --color-text-muted: var(--color-text-muted);
+  --color-success: var(--color-success);
+  --color-warning: var(--color-warning);
+  --color-danger: var(--color-danger);
+  --color-info: var(--color-info);
+  
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+}
+
+@layer base {
+  body {
+    @apply bg-[var(--color-background)] text-[var(--color-text)] antialiased font-sans;
+  }
+}
+
+@layer components {
+  /* Layout App Shell */
+  .app-shell {
+    @apply min-h-screen bg-[var(--color-background)] flex flex-col;
+  }
+
+  .global-topbar {
+    @apply fixed top-0 left-0 right-0 h-[72px] bg-white border-b border-[var(--color-input-border)] flex items-center justify-between px-6 z-50;
+  }
+
+  .app-sidebar {
+    @apply fixed left-0 top-0 bottom-0 w-[280px] bg-[var(--color-primary)] transform -translate-x-full transition-transform duration-300 ease-in-out flex flex-col z-[60] shadow-2xl;
+  }
+
+  .app-sidebar.open {
+    @apply translate-x-0;
+  }
+
+  .app-main {
+    @apply flex-1 pt-[72px] flex flex-col min-w-0;
+  }
+
+  /* Header Navigation */
+  .header-nav {
+    @apply hidden lg:flex items-center gap-1 mx-4;
+  }
+
+  .header-nav-link {
+    @apply flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-[var(--color-text-muted)] hover:text-[var(--color-primary)] hover:bg-[var(--color-primary)]/5 transition-all;
+  }
+
+  .header-nav-link-active {
+    @apply text-[var(--color-primary)] bg-[var(--color-primary)]/10;
+  }
+
+  .header-nav-link svg {
+    @apply h-4 w-4;
+  }
+
+  /* Sidebar Items */
+  .sidebar-nav {
+    @apply flex-1 px-4 py-8 space-y-1.5;
+  }
+
+  .sidebar-link {
+    @apply flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 text-white/70 hover:text-white hover:bg-white/10 font-medium text-sm;
+  }
+
+  .sidebar-link-active {
+    @apply bg-white text-[var(--color-primary)] font-bold shadow-md hover:bg-white hover:text-[var(--color-primary)];
+  }
+
+  .sidebar-link svg {
+    @apply h-5 w-5 opacity-80;
+  }
+
+  .sidebar-link-active svg {
+    @apply opacity-100;
+  }
+
+  .sidebar-footer {
+    @apply p-6 border-t border-white/10;
+  }
+
+  /* Page Structure */
+  .page-container {
+    @apply flex-1 p-6 md:p-8 max-w-6xl mx-auto w-full;
+  }
+
+  .page-header {
+    @apply flex flex-col md:flex-row md:items-start justify-between gap-4 mb-8;
+  }
+
+  .page-title {
+    @apply text-2xl font-bold text-[var(--color-text)] leading-tight tracking-tight;
+  }
+
+  .page-subtitle {
+    @apply text-[var(--color-text-muted)] text-sm mt-1;
+  }
+
+  /* UI Components: Card */
+  .card {
+    @apply bg-white rounded-2xl shadow-sm border border-[var(--color-input-border)] p-6 transition-all;
+  }
+
+  .card-header {
+    @apply flex items-center justify-between mb-5;
+  }
+
+  .card-title {
+    @apply text-base font-bold text-[var(--color-text)];
+  }
+
+  /* UI Components: Buttons */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 bg-[var(--color-button)] text-white rounded-xl font-bold transition-all hover:bg-[var(--color-button-hover)] hover:shadow-lg active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer text-sm;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 bg-white text-[var(--color-text)] border border-[var(--color-input-border)] rounded-xl font-bold transition-all hover:bg-gray-50 hover:border-gray-300 focus:ring-2 focus:ring-[var(--color-input-border)] active:scale-95 cursor-pointer text-sm;
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 bg-red-50 text-danger border border-red-100 rounded-xl font-bold transition-all hover:bg-red-100 active:scale-95 cursor-pointer text-sm;
+  }
+
+  /* UI Components: Forms */
+  .form-group {
+    @apply space-y-1.5 mb-5;
+  }
+
+  .form-label {
+    @apply block text-sm font-bold text-[var(--color-text)];
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 bg-white border border-[var(--color-input-border)] rounded-xl text-[var(--color-text)] text-sm placeholder-[var(--color-placeholder)] focus:ring-2 focus:ring-[var(--color-accent)] focus:border-transparent transition-all outline-none;
+  }
+
+  .auth-form-container .form-label {
+    @apply text-white/90 font-semibold;
+  }
+
+  /* UI Components: Badges */
+  .status-badge {
+    @apply inline-flex items-center px-2.5 py-1 rounded-lg text-xs font-bold uppercase tracking-wide border;
+  }
+
+  .status-success { @apply bg-green-50 text-success border-green-100; }
+  .status-warning { @apply bg-amber-50 text-warning border-amber-100; }
+  .status-danger { @apply bg-red-50 text-danger border-red-100; }
+  .status-info { @apply bg-sky-50 text-info border-sky-100; }
+
+  /* Others */
+  .empty-state {
+    @apply flex flex-col items-center justify-center p-12 text-center bg-white rounded-3xl border border-dashed border-[var(--color-input-border)];
+  }
+
+  .section-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+  }
+}
+
+@layer utilities {
+  .text-primary { color: var(--color-primary); }
+  .bg-primary { background-color: var(--color-primary); }
+  .border-primary { border-color: var(--color-primary); }
+  
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+}

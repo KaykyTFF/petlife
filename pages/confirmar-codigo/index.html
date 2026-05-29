@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LifePet - Confirmar Código</title>
+  <link rel="stylesheet" href="/src/css/main.css">
+</head>
+<body>
+  <div id="app"></div>
+  
+  <script type="module">
+    import { renderAuthLayout } from '/src/layouts/auth-layout.js';
+    
+    renderAuthLayout({
+      title: 'VERIFICAÇÃO',
+      subtitle: 'Enviamos um código de 6 dígitos para o seu e-mail cadastrado.',
+      content: `
+        <form class="space-y-10 w-full">
+          <div class="flex justify-between gap-2">
+            <input type="text" maxlength="1" class="w-12 h-14 text-center text-2xl font-black bg-white/10 border border-white/20 rounded-xl text-[var(--color-accent)] focus:ring-4 focus:ring-[var(--color-accent)]/30 focus:border-[var(--color-accent)] outline-none transition-all" required>
+            <input type="text" maxlength="1" class="w-12 h-14 text-center text-2xl font-black bg-white/10 border border-white/20 rounded-xl text-[var(--color-accent)] focus:ring-4 focus:ring-[var(--color-accent)]/30 focus:border-[var(--color-accent)] outline-none transition-all" required>
+            <input type="text" maxlength="1" class="w-12 h-14 text-center text-2xl font-black bg-white/10 border border-white/20 rounded-xl text-[var(--color-accent)] focus:ring-4 focus:ring-[var(--color-accent)]/30 focus:border-[var(--color-accent)] outline-none transition-all" required>
+            <input type="text" maxlength="1" class="w-12 h-14 text-center text-2xl font-black bg-white/10 border border-white/20 rounded-xl text-[var(--color-accent)] focus:ring-4 focus:ring-[var(--color-accent)]/30 focus:border-[var(--color-accent)] outline-none transition-all" required>
+            <input type="text" maxlength="1" class="w-12 h-14 text-center text-2xl font-black bg-white/10 border border-white/20 rounded-xl text-[var(--color-accent)] focus:ring-4 focus:ring-[var(--color-accent)]/30 focus:border-[var(--color-accent)] outline-none transition-all" required>
+            <input type="text" maxlength="1" class="w-12 h-14 text-center text-2xl font-black bg-white/10 border border-white/20 rounded-xl text-[var(--color-accent)] focus:ring-4 focus:ring-[var(--color-accent)]/30 focus:border-[var(--color-accent)] outline-none transition-all" required>
+          </div>
+          
+          <button type="button" onclick="location.href='/pages/dashboard/index.html'" class="btn-primary w-full py-4 text-lg shadow-lg shadow-black/20">
+            VALIDAR CÓDIGO
+          </button>
+        </form>
+        
+        <div class="mt-12 text-center text-white/70 text-sm">
+          Não recebeu o código? 
+          <a href="#" class="font-black text-[var(--color-accent)] hover:text-white transition-all ml-1 cursor-pointer uppercase tracking-widest">Reenviar agora</a>
+        </div>
+      `
+    });
+  </script>
+</body>
+</html>

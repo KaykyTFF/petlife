@@ -1,0 +1,10 @@
+/* LifePet Component Styles */
+@layer components {
+  .btn {
+    @apply px-4 py-2 rounded-lg font-medium transition-all cursor-pointer;
+  }
+  
+  .btn-primary {
+    @apply bg-[var(--color-primary)] text-white hover:opacity-90;
+  }
+}
