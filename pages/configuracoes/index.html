@@ -11,10 +11,9 @@
 
   <script type="module">
     import { renderAppLayout } from '/src/layouts/app-layout.js';
+    import { withLoading, SkeletonSettings } from '/src/components/skeleton.js';
 
-    renderAppLayout({
-      title: 'Configurações',
-      content: `
+    const renderContent = () => `
         <div class="max-w-3xl mx-auto">
           <div class="page-header">
             <div>
@@ -75,8 +74,14 @@
             </section>
           </div>
         </div>
-      `
+    `;
+
+    renderAppLayout({
+      title: 'Configurações',
+      content: '<div id="settings-content"></div>'
     });
+
+    withLoading('settings-content', SkeletonSettings, renderContent, 800);
   </script>
 </body>
 </html>

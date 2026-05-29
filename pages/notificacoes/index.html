@@ -11,10 +11,9 @@
 
   <script type="module">
     import { renderAppLayout } from '/src/layouts/app-layout.js';
+    import { withLoading, SkeletonNotifications } from '/src/components/skeleton.js';
 
-    renderAppLayout({
-      title: 'Notificações',
-      content: `
+    const renderContent = () => `
         <div class="max-w-3xl mx-auto">
           <div class="page-header">
             <div>
@@ -75,8 +74,14 @@
             </div>
           </div>
         </div>
-      `
+    `;
+
+    renderAppLayout({
+      title: 'Notificações',
+      content: '<div id="notifications-content"></div>'
     });
+
+    withLoading('notifications-content', SkeletonNotifications, renderContent, 800);
   </script>
 </body>
 </html>

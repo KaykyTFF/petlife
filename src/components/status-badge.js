@@ -12,10 +12,5 @@ export const StatusBadge = (text, type = 'success') => {
     info: 'status-info'
   };
 
-  return `
-    <span class="status-badge ${typeClasses[type] || typeClasses.success}">
-      <span class="w-1.5 h-1.5 rounded-full bg-current mr-1.5 opacity-60"></span>
-      ${text}
-    </span>
-  `;
+  return `<span class="status-badge ${typeClasses[type] || typeClasses.success}">${text}</span>`;
 };

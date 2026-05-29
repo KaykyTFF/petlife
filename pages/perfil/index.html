@@ -11,10 +11,9 @@
 
   <script type="module">
     import { renderAppLayout } from '/src/layouts/app-layout.js';
+    import { withLoading, SkeletonProfile } from '/src/components/skeleton.js';
 
-    renderAppLayout({
-      title: 'Perfil',
-      content: `
+    const renderContent = () => `
         <div class="max-w-4xl mx-auto">
           <div class="page-header">
             <div>
@@ -85,7 +84,7 @@
               </section>
 
               <section class="card border-red-100">
-                <div class="card-header border-b border-red-50 pb-4 mb-4">
+                <div class="card-header border-red-50 pb-4 mb-4">
                   <h3 class="card-title text-sm text-[var(--color-danger)]">Zona de Perigo</h3>
                 </div>
                 <p class="text-xs text-[var(--color-text-muted)] mb-4">
@@ -96,8 +95,14 @@
             </div>
           </div>
         </div>
-      `
+    `;
+
+    renderAppLayout({
+      title: 'Perfil',
+      content: '<div id="profile-content"></div>'
     });
+
+    withLoading('profile-content', SkeletonProfile, renderContent, 800);
   </script>
 </body>
 </html>

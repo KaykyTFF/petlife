@@ -42,14 +42,12 @@ export const renderAppLayout = ({ title, content }) => {
     const openDrawer = () => {
       sidebar.classList.add('open');
       overlay.classList.remove('hidden');
-      document.body.classList.add('overflow-hidden');
       menuToggle?.setAttribute('aria-expanded', 'true');
     };
 
     const closeDrawer = () => {
       sidebar.classList.remove('open');
       overlay.classList.add('hidden');
-      document.body.classList.remove('overflow-hidden');
       menuToggle?.setAttribute('aria-expanded', 'false');
     };
 

@@ -3,63 +3,407 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LifePet - LifePet Care OS</title>
+  <title>LifePet - Cuidado pet organizado em um só lugar</title>
   <link rel="stylesheet" href="/src/css/main.css">
+  <style>
+    .hero-gradient {
+      background: radial-gradient(circle at top right, rgba(0, 124, 146, 0.05), transparent),
+                  radial-gradient(circle at bottom left, rgba(0, 199, 217, 0.08), transparent);
+    }
+    .floating-card {
+      animation: float 6s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+  </style>
 </head>
-<body class="bg-[var(--color-background)] overflow-x-hidden">
-  <!-- Hero Section (Care OS Experience) -->
-  <header class="min-h-screen flex flex-col items-center justify-center p-8 text-center relative overflow-hidden">
-    <!-- Visual Depth -->
-    <div class="absolute top-[-20%] left-[-10%] w-[60%] h-[60%] bg-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
-    <div class="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] bg-[var(--color-accent)]/10 rounded-full blur-[120px] pointer-events-none"></div>
+<body class="bg-[var(--color-background)] text-[var(--color-text)] font-sans antialiased overflow-x-hidden">
+  
+  <!-- Header -->
+  <header class="fixed top-0 left-0 right-0 bg-white/80 backdrop-blur-md border-b border-[var(--color-input-border)] z-50">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      <a href="/" class="flex items-center gap-3">
+        <img src="/assets/logos/lifepet-logo.svg" alt="LifePet Logo" class="h-10">
+        <span class="text-xl font-bold tracking-tighter text-primary">LifePet</span>
+      </a>
 
-    <div class="relative z-10 max-w-5xl mx-auto">
-      <div class="w-28 h-28 bg-primary rounded-[2.5rem] flex items-center justify-center shadow-floating mx-auto mb-12 transition-all duration-700 hover:rotate-12 hover:scale-110 group">
-        <img src="/assets/logos/lifepet-logo.svg" alt="Logo LifePet" class="w-16 h-16 brightness-0 invert transition-transform group-hover:scale-110">
-      </div>
-      
-      <div class="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-sm border border-[var(--color-input-border)] mb-8 animate-bounce-in">
-        <span class="w-2 h-2 bg-success rounded-full animate-pulse"></span>
-        <span class="text-[10px] font-black uppercase tracking-widest text-[var(--color-text-muted)]">LifePet Care OS v2.0 Disponível</span>
-      </div>
+      <nav class="hidden lg:flex items-center gap-8">
+        <a href="#inicio" class="text-sm font-semibold text-[var(--color-text-muted)] hover:text-primary transition-colors">Início</a>
+        <a href="#recursos" class="text-sm font-semibold text-[var(--color-text-muted)] hover:text-primary transition-colors">Recursos</a>
+        <a href="#como-funciona" class="text-sm font-semibold text-[var(--color-text-muted)] hover:text-primary transition-colors">Como funciona</a>
+        <a href="#beneficios" class="text-sm font-semibold text-[var(--color-text-muted)] hover:text-primary transition-colors">Benefícios</a>
+      </nav>
 
-      <h1 class="text-6xl md:text-8xl font-black text-[var(--color-text)] mb-8 tracking-tighter leading-[0.9] uppercase">
-        Saúde pet <br class="hidden md:block">
-        <span class="text-primary italic">reimaginada.</span>
-      </h1>
-      
-      <p class="text-xl md:text-2xl text-[var(--color-text-muted)] mb-14 max-w-3xl mx-auto font-medium leading-relaxed tracking-tight">
-        A plataforma definitiva de monitoramento para quem ama. Vacinas, consultas e histórico médico em uma interface de classe mundial.
-      </p>
-      
-      <div class="flex flex-col md:flex-row items-center justify-center gap-6">
-        <a href="/pages/login/index.html" class="btn-primary px-16 py-6 text-xl shadow-floating w-full md:w-auto uppercase tracking-tighter">
-          ACESSAR CONTA
-        </a>
-        <a href="/pages/cadastro/index.html" class="btn-secondary px-16 py-6 text-xl w-full md:w-auto uppercase tracking-tighter">
-          COMEÇAR GRÁTIS
-        </a>
+      <div class="hidden lg:flex items-center gap-4">
+        <a href="/pages/login/index.html" class="text-sm font-bold text-[var(--color-text)] hover:text-primary transition-colors">Entrar</a>
+        <a href="/pages/cadastro/index.html" class="btn-primary !px-5 !py-2.5 !text-xs !rounded-lg">Começar grátis</a>
       </div>
 
-      <div class="mt-24 pt-12 border-t border-[var(--color-input-border)]/50 flex flex-wrap items-center justify-center gap-12 opacity-30 grayscale hover:grayscale-0 transition-all duration-700">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Google_Play_Store_logo_2022.svg" alt="Google Play" class="h-8">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/3/31/Apple_logo_white.svg" alt="App Store" class="h-8 brightness-0">
-        <div class="h-8 w-px bg-[var(--color-text-muted)] hidden md:block"></div>
-        <p class="text-sm font-black uppercase tracking-widest">+50k Pets Monitorados</p>
-      </div>
+      <button id="mobile-menu-btn" class="lg:hidden p-2 text-[var(--color-text)]">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-white border-b border-[var(--color-input-border)] px-6 py-8 flex flex-col gap-6">
+      <a href="#inicio" class="text-base font-semibold text-[var(--color-text)]">Início</a>
+      <a href="#recursos" class="text-base font-semibold text-[var(--color-text)]">Recursos</a>
+      <a href="#como-funciona" class="text-base font-semibold text-[var(--color-text)]">Como funciona</a>
+      <a href="#beneficios" class="text-base font-semibold text-[var(--color-text)]">Benefícios</a>
+      <hr class="border-[var(--color-input-border)]">
+      <a href="/pages/login/index.html" class="text-base font-bold text-primary">Entrar</a>
+      <a href="/pages/cadastro/index.html" class="btn-primary w-full text-center">Começar grátis</a>
     </div>
   </header>
 
-  <footer class="p-12 text-center bg-white border-t border-[var(--color-input-border)]">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-      <div class="flex items-center gap-3">
-        <img src="/assets/logos/lifepet-logo.svg" alt="LifePet" class="h-6 opacity-80">
-        <span class="text-lg font-black tracking-tighter uppercase italic text-primary">LifePet</span>
+  <main id="inicio" class="pt-20">
+    <!-- Hero Section -->
+    <section class="min-h-[85vh] flex items-center relative overflow-hidden hero-gradient">
+      <div class="max-w-7xl mx-auto px-6 py-20 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+        <div class="space-y-8 text-center lg:text-left">
+          <div class="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 rounded-full border border-primary/20">
+            <span class="w-2 h-2 bg-primary rounded-full animate-pulse"></span>
+            <span class="text-[10px] font-bold uppercase tracking-widest text-primary">Plataforma SaaS para Tutores</span>
+          </div>
+          <h1 class="text-5xl md:text-7xl font-bold tracking-tighter leading-[1.05] text-[var(--color-text)]">
+            Cuidado pet <br class="hidden md:block">
+            <span class="text-primary italic">organizado</span> em <br class="hidden md:block">
+            um só lugar.
+          </h1>
+          <p class="text-lg md:text-xl text-[var(--color-text-muted)] max-w-xl mx-auto lg:mx-0 leading-relaxed">
+            Controle vacinas, consultas, vermífugos e históricos de saúde dos seus pets com lembretes inteligentes e uma experiência feita para tutores exigentes.
+          </p>
+          <div class="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
+            <a href="/pages/cadastro/index.html" class="btn-primary w-full sm:w-auto px-10 py-5 text-base shadow-xl shadow-primary/20">
+              Começar grátis
+            </a>
+            <a href="/pages/login/index.html" class="btn-secondary w-full sm:w-auto px-10 py-5 text-base">
+              Acessar conta
+            </a>
+          </div>
+        </div>
+
+        <!-- Floating Cards Illustration -->
+        <div class="relative hidden lg:block">
+          <div class="absolute inset-0 bg-[var(--color-accent)]/5 rounded-full blur-[100px] pointer-events-none"></div>
+          <div class="relative z-10 flex flex-col gap-6">
+            <div class="floating-card ml-12 card p-5 !rounded-2xl border-l-4 border-l-warning max-w-[280px] shadow-2xl">
+              <div class="flex gap-4">
+                <div class="w-10 h-10 bg-amber-50 rounded-lg flex items-center justify-center text-warning">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                </div>
+                <div>
+                  <p class="text-sm font-bold text-[var(--color-text)]">Vacina Pendente</p>
+                  <p class="text-xs text-[var(--color-text-muted)]">Rex precisa da V10 hoje</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="floating-card self-center card p-5 !rounded-2xl border-l-4 border-l-success max-w-[280px] shadow-2xl" style="animation-delay: -2s">
+              <div class="flex gap-4">
+                <div class="w-10 h-10 bg-green-50 rounded-lg flex items-center justify-center text-success">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <div>
+                  <p class="text-sm font-bold text-[var(--color-text)]">Saúde em Dia</p>
+                  <p class="text-xs text-[var(--color-text-muted)]">Luna está protegida</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="floating-card mr-12 self-end card p-5 !rounded-2xl border-l-4 border-l-primary max-w-[280px] shadow-2xl" style="animation-delay: -4s">
+              <div class="flex gap-4">
+                <div class="w-10 h-10 bg-sky-50 rounded-lg flex items-center justify-center text-primary">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                </div>
+                <div>
+                  <p class="text-sm font-bold text-[var(--color-text)]">Consulta Agendada</p>
+                  <p class="text-xs text-[var(--color-text-muted)]">15 Mai • Clínica VetCare</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <p class="text-[10px] font-black text-[var(--color-text-muted)] uppercase tracking-[0.3em]">&copy; 2026 LifePet Care OS • Designed for Excellence</p>
-      <div class="flex gap-6">
-        <a href="#" class="text-xs font-bold text-[var(--color-text-muted)] hover:text-primary transition-colors uppercase tracking-widest">Privacidade</a>
-        <a href="#" class="text-xs font-bold text-[var(--color-text-muted)] hover:text-primary transition-colors uppercase tracking-widest">Termos</a>
+    </section>
+
+    <!-- Recursos -->
+    <section id="recursos" class="py-24 bg-white">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center max-w-3xl mx-auto mb-20 space-y-4">
+          <h2 class="text-primary font-bold text-sm uppercase tracking-[0.2em]">Funcionalidades</h2>
+          <p class="text-3xl md:text-5xl font-bold tracking-tighter text-[var(--color-text)]">Tudo o que você precisa para uma vida pet tranquila.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <!-- Recurso 1 -->
+          <div class="card !p-10 group hover:border-primary/30 transition-all">
+            <div class="w-14 h-14 bg-[var(--color-background)] rounded-2xl flex items-center justify-center text-primary mb-8 group-hover:bg-primary group-hover:text-white transition-all">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.691.346a6 6 0 01-3.86.517l-2.388-.477a2 2 0 00-1.022.547l-1.162 1.162a2 2 0 000 2.828l1.162 1.162a2 2 0 002.828 0l1.162-1.162a2 2 0 00.547-1.022l.477-2.387a6 6 0 01.517-3.86l.346-.691a6 6 0 013.86-.517l2.387.477a2 2 0 011.022.547l1.162 1.162a2 2 0 010 2.828l-1.162 1.162a2 2 0 01-2.828 0l-1.162-1.162z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold mb-4">Controle de vacinas</h3>
+            <p class="text-[var(--color-text-muted)] leading-relaxed">Não perca mais nenhuma dose. Receba avisos antecipados sobre os reforços anuais de todos os seus pets.</p>
+          </div>
+
+          <!-- Recurso 2 -->
+          <div class="card !p-10 group hover:border-primary/30 transition-all">
+            <div class="w-14 h-14 bg-[var(--color-background)] rounded-2xl flex items-center justify-center text-primary mb-8 group-hover:bg-primary group-hover:text-white transition-all">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold mb-4">Consultas e Exames</h3>
+            <p class="text-[var(--color-text-muted)] leading-relaxed">Agende check-ups e guarde o histórico de diagnósticos para facilitar a vida do veterinário.</p>
+          </div>
+
+          <!-- Recurso 3 -->
+          <div class="card !p-10 group hover:border-primary/30 transition-all">
+            <div class="w-14 h-14 bg-[var(--color-background)] rounded-2xl flex items-center justify-center text-primary mb-8 group-hover:bg-primary group-hover:text-white transition-all">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold mb-4">Vermífugo e Antipulgas</h3>
+            <p class="text-[var(--color-text-muted)] leading-relaxed">Controle datas de aplicação de preventivos e garanta que seu pet esteja sempre protegido.</p>
+          </div>
+
+          <!-- Recurso 4 -->
+          <div class="card !p-10 group hover:border-primary/30 transition-all">
+            <div class="w-14 h-14 bg-[var(--color-background)] rounded-2xl flex items-center justify-center text-primary mb-8 group-hover:bg-primary group-hover:text-white transition-all">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold mb-4">Histórico Médico</h3>
+            <p class="text-[var(--color-text-muted)] leading-relaxed">Documentação completa acessível em qualquer lugar. Perfeito para emergências ou trocas de clínica.</p>
+          </div>
+
+          <!-- Recurso 5 -->
+          <div class="card !p-10 group hover:border-primary/30 transition-all">
+            <div class="w-14 h-14 bg-[var(--color-background)] rounded-2xl flex items-center justify-center text-primary mb-8 group-hover:bg-primary group-hover:text-white transition-all">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold mb-4">Lembretes Inteligentes</h3>
+            <p class="text-[var(--color-text-muted)] leading-relaxed">Alertas via sistema para você nunca mais esquecer uma data importante de saúde pet.</p>
+          </div>
+
+          <!-- Recurso 6 -->
+          <div class="card !p-10 group hover:border-primary/30 transition-all">
+            <div class="w-14 h-14 bg-[var(--color-background)] rounded-2xl flex items-center justify-center text-primary mb-8 group-hover:bg-primary group-hover:text-white transition-all">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold mb-4">Calendário Integrado</h3>
+            <p class="text-[var(--color-text-muted)] leading-relaxed">Uma visão clara de todos os eventos de todos os seus pets em uma única agenda organizada.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Como Funciona -->
+    <section id="como-funciona" class="py-24 bg-[var(--color-background)]">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center max-w-2xl mx-auto mb-20 space-y-4">
+          <h2 class="text-primary font-bold text-sm uppercase tracking-[0.2em]">Fluxo de uso</h2>
+          <p class="text-3xl md:text-5xl font-bold tracking-tighter text-[var(--color-text)]">Simples como deve ser.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 relative">
+          <!-- Step 1 -->
+          <div class="flex flex-col items-center text-center space-y-6 relative z-10">
+            <div class="w-20 h-20 bg-white rounded-full border border-[var(--color-input-border)] flex items-center justify-center text-3xl font-black text-primary shadow-sm">1</div>
+            <h3 class="text-xl font-bold">Cadastre seu pet</h3>
+            <p class="text-[var(--color-text-muted)]">Adicione nome, raça, idade e as informações básicas do seu melhor amigo.</p>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="flex flex-col items-center text-center space-y-6 relative z-10">
+            <div class="w-20 h-20 bg-white rounded-full border border-[var(--color-input-border)] flex items-center justify-center text-3xl font-black text-primary shadow-sm">2</div>
+            <h3 class="text-xl font-bold">Adicione o histórico</h3>
+            <p class="text-[var(--color-text-muted)]">Insira vacinas aplicadas, próximas doses e consultas agendadas.</p>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="flex flex-col items-center text-center space-y-6 relative z-10">
+            <div class="w-20 h-20 bg-white rounded-full border border-[var(--color-input-border)] flex items-center justify-center text-3xl font-black text-primary shadow-sm">3</div>
+            <h3 class="text-xl font-bold">Acompanhe tudo</h3>
+            <p class="text-[var(--color-text-muted)]">Receba notificações e veja todo o planejamento no calendário interativo.</p>
+          </div>
+
+          <!-- Decorative Line (Desktop) -->
+          <div class="absolute top-10 left-[15%] right-[15%] h-px bg-[var(--color-input-border)] hidden md:block"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Benefícios -->
+    <section id="beneficios" class="py-24 bg-white">
+      <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+        <div class="space-y-12">
+          <div class="space-y-4">
+            <h2 class="text-primary font-bold text-sm uppercase tracking-[0.2em]">Vantagens reais</h2>
+            <p class="text-3xl md:text-5xl font-bold tracking-tighter text-[var(--color-text)] leading-tight">Cuidar bem é estar presente e organizado.</p>
+          </div>
+          
+          <ul class="space-y-8">
+            <li class="flex gap-5">
+              <div class="flex-shrink-0 w-6 h-6 bg-success rounded-full flex items-center justify-center text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <div>
+                <p class="font-bold text-lg">Evite esquecer vacinas críticas</p>
+                <p class="text-[var(--color-text-muted)]">Esquecer uma dose pode ser perigoso. Nós lembramos você no momento certo.</p>
+              </div>
+            </li>
+            <li class="flex gap-5">
+              <div class="flex-shrink-0 w-6 h-6 bg-success rounded-full flex items-center justify-center text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <div>
+                <p class="font-bold text-lg">Centralize toda a vida do pet</p>
+                <p class="text-[var(--color-text-muted)]">Chega de pastas físicas e anotações perdidas. Tudo em um painel digital seguro.</p>
+              </div>
+            </li>
+            <li class="flex gap-5">
+              <div class="flex-shrink-0 w-6 h-6 bg-success rounded-full flex items-center justify-center text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+              <div>
+                <p class="font-bold text-lg">Facilite emergências veterinárias</p>
+                <p class="text-[var(--color-text-muted)]">Acesse o histórico de alergias e tratamentos em segundos pelo celular.</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+        
+        <div class="bg-primary/5 rounded-[3rem] p-8 md:p-12 relative">
+          <div class="absolute -top-10 -right-10 w-32 h-32 bg-[var(--color-accent)]/10 rounded-full blur-2xl"></div>
+          <div class="card !p-0 overflow-hidden shadow-2xl border-primary/20">
+            <div class="p-6 bg-primary text-white flex justify-between items-center">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
+                  <img src="/assets/logos/lifepet-logo.svg" class="h-5 brightness-0 invert" alt="">
+                </div>
+                <span class="font-bold">LifePet Care OS</span>
+              </div>
+              <div class="flex gap-2">
+                <div class="w-3 h-3 bg-white/30 rounded-full"></div>
+                <div class="w-3 h-3 bg-white/30 rounded-full"></div>
+              </div>
+            </div>
+            <div class="p-8 space-y-6">
+              <div class="h-4 bg-gray-100 rounded-full w-3/4"></div>
+              <div class="grid grid-cols-2 gap-4">
+                <div class="h-24 bg-gray-50 rounded-xl border border-gray-100 flex flex-col justify-center items-center gap-2">
+                  <div class="w-8 h-8 bg-success/10 rounded-lg"></div>
+                  <div class="h-2 bg-gray-200 rounded-full w-1/2"></div>
+                </div>
+                <div class="h-24 bg-gray-50 rounded-xl border border-gray-100 flex flex-col justify-center items-center gap-2">
+                  <div class="w-8 h-8 bg-warning/10 rounded-lg"></div>
+                  <div class="h-2 bg-gray-200 rounded-full w-1/2"></div>
+                </div>
+              </div>
+              <div class="space-y-3">
+                <div class="h-10 bg-gray-50 rounded-lg border border-gray-100"></div>
+                <div class="h-10 bg-gray-50 rounded-lg border border-gray-100"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Final -->
+    <section class="py-24 bg-[var(--color-background)]">
+      <div class="max-w-5xl mx-auto px-6">
+        <div class="bg-primary rounded-[3rem] p-12 md:p-20 text-center text-white relative overflow-hidden shadow-2xl shadow-primary/30">
+          <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-[100px] pointer-events-none translate-x-1/2 -translate-y-1/2"></div>
+          <div class="absolute bottom-0 left-0 w-64 h-64 bg-black/10 rounded-full blur-[100px] pointer-events-none -translate-x-1/2 translate-y-1/2"></div>
+          
+          <div class="relative z-10 space-y-10">
+            <h2 class="text-4xl md:text-6xl font-bold tracking-tighter leading-tight">Comece a cuidar melhor da saúde do seu pet hoje.</h2>
+            <p class="text-lg md:text-xl text-white/80 max-w-2xl mx-auto font-medium">Junte-se a milhares de tutores que já transformaram a forma de monitorar seus melhores amigos.</p>
+            <div class="flex flex-col sm:flex-row items-center gap-6 justify-center pt-6">
+              <a href="/pages/cadastro/index.html" class="btn-secondary !bg-white !text-primary !border-white px-12 py-6 text-lg w-full sm:w-auto">
+                Criar conta grátis
+              </a>
+              <a href="/pages/login/index.html" class="text-lg font-bold hover:underline transition-all">
+                Já tenho conta
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="py-16 bg-white border-t border-[var(--color-input-border)]">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-12 mb-16">
+        <div class="space-y-6 max-w-sm">
+          <a href="/" class="flex items-center gap-3">
+            <img src="/assets/logos/lifepet-logo.svg" alt="LifePet Logo" class="h-8">
+            <span class="text-xl font-bold tracking-tighter text-primary">LifePet</span>
+          </a>
+          <p class="text-[var(--color-text-muted)] leading-relaxed">A tecnologia que aproxima você da saúde do seu melhor amigo. Completo, simples e essencial.</p>
+        </div>
+        
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-12">
+          <div class="space-y-4">
+            <h4 class="font-bold text-sm uppercase tracking-widest text-[var(--color-text)]">Produto</h4>
+            <ul class="space-y-3 text-sm text-[var(--color-text-muted)]">
+              <li><a href="#recursos" class="hover:text-primary transition-colors">Recursos</a></li>
+              <li><a href="#como-funciona" class="hover:text-primary transition-colors">Como funciona</a></li>
+              <li><a href="#beneficios" class="hover:text-primary transition-colors">Benefícios</a></li>
+            </ul>
+          </div>
+          <div class="space-y-4">
+            <h4 class="font-bold text-sm uppercase tracking-widest text-[var(--color-text)]">Suporte</h4>
+            <ul class="space-y-3 text-sm text-[var(--color-text-muted)]">
+              <li><a href="#" class="hover:text-primary transition-colors">Ajuda</a></li>
+              <li><a href="#" class="hover:text-primary transition-colors">Contato</a></li>
+              <li><a href="#" class="hover:text-primary transition-colors">FAQ</a></li>
+            </ul>
+          </div>
+          <div class="space-y-4 col-span-2 md:col-span-1">
+            <h4 class="font-bold text-sm uppercase tracking-widest text-[var(--color-text)]">Legal</h4>
+            <ul class="space-y-3 text-sm text-[var(--color-text-muted)]">
+              <li><a href="#" class="hover:text-primary transition-colors">Privacidade</a></li>
+              <li><a href="#" class="hover:text-primary transition-colors">Termos de uso</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="pt-12 border-t border-[var(--color-input-border)] flex flex-col md:flex-row justify-between items-center gap-6">
+        <p class="text-xs font-bold text-[var(--color-text-muted)] uppercase tracking-[0.2em]">&copy; 2026 LifePet Care OS • Desenvolvido com excelência</p>
+        <div class="flex gap-8">
+          <!-- Social Icons Placeholder -->
+          <span class="text-[var(--color-text-muted)] text-xs font-black tracking-widest uppercase">INSTAGRAM</span>
+          <span class="text-[var(--color-text-muted)] text-xs font-black tracking-widest uppercase">LINKEDIN</span>
+        </div>
       </div>
     </div>
   </footer>

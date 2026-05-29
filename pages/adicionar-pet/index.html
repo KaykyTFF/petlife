@@ -11,10 +11,9 @@
 
   <script type="module">
     import { renderAppLayout } from '/src/layouts/app-layout.js';
+    import { withLoading, SkeletonForm, SkeletonHeader } from '/src/components/skeleton.js';
 
-    renderAppLayout({
-      title: 'Adicionar Pet',
-      content: `
+    const renderContent = () => `
         <div class="max-w-2xl mx-auto">
           <div class="page-header">
             <div>
@@ -70,8 +69,19 @@
             </form>
           </div>
         </div>
-      `
+    `;
+
+    renderAppLayout({
+      title: 'Adicionar Pet',
+      content: '<div id="add-pet-content"></div>'
     });
+
+    withLoading('add-pet-content', () => `
+      <div class="max-w-2xl mx-auto space-y-8">
+        ${SkeletonHeader(false)}
+        ${SkeletonForm()}
+      </div>
+    `, renderContent, 800);
   </script>
 </body>
 </html>

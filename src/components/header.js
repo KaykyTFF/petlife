@@ -30,19 +30,19 @@ export const Header = () => {
     <header class="global-topbar">
       <!-- Left: Brand & Menu -->
       <div class="flex items-center gap-4">
-        <button id="menu-toggle" class="p-2 -ml-2 text-[var(--color-text-muted)] hover:text-[var(--color-primary)] hover:bg-[var(--color-primary)]/5 rounded-lg transition-all" aria-expanded="false" aria-label="Abrir menu">
+        <button id="menu-toggle" class="p-2 -ml-2 text-white/70 hover:text-white hover:bg-white/10 rounded-lg transition-all" aria-expanded="false" aria-label="Abrir menu">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
           </svg>
         </button>
         
         <a href="/pages/dashboard/index.html" class="flex items-center gap-2.5 group">
-          <div class="p-1.5 bg-[var(--color-primary)] rounded-xl group-hover:scale-110 transition-transform shadow-sm">
+          <div class="p-1.5 bg-white/10 rounded-xl group-hover:scale-110 transition-transform shadow-sm">
             <img src="/assets/logos/lifepet-logo.svg" alt="LifePet Logo" class="h-6 w-6 invert brightness-0">
           </div>
           <div class="flex flex-col">
-            <span class="font-bold text-lg text-[var(--color-text)] tracking-tight leading-none">LifePet</span>
-            <span class="text-[10px] text-[var(--color-text-muted)] font-medium uppercase tracking-wider">Pet Care</span>
+            <span class="font-bold text-lg text-white tracking-tight leading-none">LifePet</span>
+            <span class="text-[10px] text-white/60 font-medium uppercase tracking-wider">Pet Care</span>
           </div>
         </a>
       </div>
@@ -55,22 +55,22 @@ export const Header = () => {
       <!-- Right: Actions & Profile -->
       <div class="flex items-center gap-3">
         <div class="hidden sm:flex items-center gap-2 mr-2">
-          <a href="/pages/notificacoes/index.html" class="p-2 ${isNotificationsActive ? 'text-[var(--color-primary)] bg-[var(--color-primary)]/10' : 'text-[var(--color-text-muted)]'} hover:text-[var(--color-primary)] hover:bg-[var(--color-primary)]/5 rounded-full transition-all relative group" aria-label="Abrir notificações">
+          <a href="/pages/notificacoes/index.html" class="p-2 ${isNotificationsActive ? 'bg-[#005B78]' : 'text-white/70'} hover:bg-[#005F7E] text-white rounded-full transition-all relative group" aria-label="Abrir notificações">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
             </svg>
-            <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-[var(--color-accent)] rounded-full border-2 border-white animate-pulse"></span>
+            <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-[var(--color-accent)] rounded-full border-2 border-[#006F93] animate-pulse"></span>
           </a>
         </div>
 
-        <div class="h-8 w-px bg-[var(--color-input-border)] mx-1"></div>
+        <div class="h-8 w-px bg-white/10 mx-1"></div>
 
         <a href="/pages/perfil/index.html" class="flex items-center gap-3 pl-2 group">
           <div class="hidden md:flex flex-col items-end">
-            <span class="text-sm font-bold text-[var(--color-text)] leading-none">Kayky</span>
-            <span class="text-[11px] text-[var(--color-text-muted)] font-medium">Tutor Gold</span>
+            <span class="text-sm font-bold text-white leading-none">Kayky</span>
+            <span class="text-[11px] text-white/60 font-medium">Tutor Gold</span>
           </div>
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-[var(--color-primary)] to-[var(--color-button)] text-white flex items-center justify-center text-sm font-bold shadow-sm group-hover:shadow-md transition-all">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-white/20 to-white/5 text-white border border-white/10 flex items-center justify-center text-sm font-bold shadow-sm group-hover:shadow-md transition-all">
             K
           </div>
         </a>

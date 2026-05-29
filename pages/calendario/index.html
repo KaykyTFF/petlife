@@ -11,10 +11,9 @@
 
   <script type="module">
     import { renderAppLayout } from '/src/layouts/app-layout.js';
+    import { withLoading, SkeletonCalendar } from '/src/components/skeleton.js';
 
-    renderAppLayout({
-      title: 'Calendário',
-      content: `
+    const renderContent = () => `
         <div class="page-header">
           <div>
             <h1 class="page-title">Calendário</h1>
@@ -75,8 +74,14 @@
             `).join('')}
           </div>
         </div>
-      `
+    `;
+
+    renderAppLayout({
+      title: 'Calendário',
+      content: '<div id="calendar-content"></div>'
     });
+
+    withLoading('calendar-content', SkeletonCalendar, renderContent, 1000);
   </script>
 </body>
 </html>

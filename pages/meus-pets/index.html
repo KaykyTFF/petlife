@@ -13,6 +13,7 @@
     import { renderAppLayout } from '/src/layouts/app-layout.js';
     import { PetCard } from '/src/components/pet-card.js';
     import { EmptyState } from '/src/components/empty-state.js';
+    import { withLoading, SkeletonPets } from '/src/components/skeleton.js';
 
     // Mock data for pets
     const pets = [
@@ -23,9 +24,7 @@
 
     const hasPets = pets.length > 0;
 
-    renderAppLayout({
-      title: 'Meus Pets',
-      content: `
+    const renderContent = () => `
         <div class="page-header">
           <div>
             <h1 class="page-title">Meus Pets</h1>
@@ -62,8 +61,14 @@
             actionHref: '/pages/adicionar-pet/index.html'
           })}
         `}
-      `
+    `;
+
+    renderAppLayout({
+      title: 'Meus Pets',
+      content: '<div id="pets-content"></div>'
     });
+
+    withLoading('pets-content', SkeletonPets, renderContent, 800);
   </script>
 </body>
 </html>
