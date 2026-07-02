@@ -11,77 +11,34 @@
 
   <script type="module">
     import { renderAppLayout } from '/src/layouts/app-layout.js';
-    import { withLoading, SkeletonCalendar } from '/src/components/skeleton.js';
+    import { initCalendar } from '/src/js/pages/calendario.js';
 
-    const renderContent = () => `
+    // 1. Render main layout structure
+    renderAppLayout({
+      title: 'Calendário',
+      content: `
         <div class="page-header">
           <div>
             <h1 class="page-title">Calendário</h1>
             <p class="page-subtitle">Acompanhe os próximos compromissos e agendamentos.</p>
           </div>
           <div class="flex items-center gap-2">
-            <button class="btn-secondary">Hoje</button>
-            <div class="flex bg-gray-100 rounded-lg p-1">
-              <button class="px-4 py-1.5 bg-white shadow-sm rounded-md text-sm font-medium text-[var(--color-text)]">Mês</button>
-              <button class="px-4 py-1.5 rounded-md text-sm font-medium text-[var(--color-text-muted)] hover:text-[var(--color-text)] transition-colors">Semana</button>
-            </div>
           </div>
         </div>
 
-        <div class="card p-0 overflow-hidden">
-          <div class="p-5 border-b border-[var(--color-input-border)] flex items-center justify-between">
-            <div class="flex items-center gap-4">
-              <button class="p-2 hover:bg-gray-50 rounded-lg transition-colors border border-[var(--color-input-border)]">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                </svg>
-              </button>
-              <h2 class="text-lg font-semibold text-[var(--color-text)]">Maio 2026</h2>
-              <button class="p-2 hover:bg-gray-50 rounded-lg transition-colors border border-[var(--color-input-border)]">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
-            </div>
-          </div>
-          
-          <div class="grid grid-cols-7 border-b border-[var(--color-input-border)] bg-gray-50">
-            ${['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'].map(day => `
-              <div class="py-3 text-center text-xs font-semibold text-[var(--color-text-muted)] uppercase border-r border-[var(--color-input-border)] last:border-r-0">${day}</div>
-            `).join('')}
-          </div>
-
-          <div class="grid grid-cols-7 bg-white">
-            ${Array.from({ length: 31 }, (_, i) => i + 1).map(day => `
-              <div class="min-h-[120px] p-3 border-b border-r border-[var(--color-input-border)] hover:bg-gray-50 transition-colors cursor-default">
-                <div class="flex justify-between items-start">
-                  <span class="text-sm font-medium ${day === 19 ? 'bg-[var(--color-primary)] text-white w-6 h-6 flex items-center justify-center rounded-full' : 'text-[var(--color-text)]'}">${day}</span>
-                </div>
-                
-                ${day === 15 ? `
-                  <div class="mt-2 p-2 bg-amber-50 border-l-2 border-warning rounded-md">
-                    <p class="text-xs font-semibold text-[var(--color-text)]">Vacina V10</p>
-                    <p class="text-[10px] text-[var(--color-text-muted)] truncate">Luna</p>
-                  </div>
-                ` : ''}
-                ${day === 22 ? `
-                  <div class="mt-2 p-2 bg-green-50 border-l-2 border-success rounded-md">
-                    <p class="text-xs font-semibold text-[var(--color-text)]">Vermífugo</p>
-                    <p class="text-[10px] text-[var(--color-text-muted)] truncate">Rex</p>
-                  </div>
-                ` : ''}
-              </div>
-            `).join('')}
+        <div id="calendar-content" class="min-h-[600px] w-full">
+          <!-- Skeleton or Spinner can be injected here by the Component if needed -->
+          <div class="animate-pulse flex flex-col items-center justify-center min-h-[600px] gap-4">
+            <div class="w-12 h-12 bg-gray-200 rounded-full"></div>
+            <div class="h-4 bg-gray-200 rounded w-48"></div>
           </div>
         </div>
-    `;
-
-    renderAppLayout({
-      title: 'Calendário',
-      content: '<div id="calendar-content"></div>'
+      `
     });
 
-    withLoading('calendar-content', SkeletonCalendar, renderContent, 1000);
+    // 2. Initialize the dynamic calendar
+    // The calendar component handles its own loading state internally
+    initCalendar();
   </script>
 </body>
 </html>

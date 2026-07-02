@@ -9,11 +9,12 @@
 <body>
   <div id="app"></div>
   
+  <script type="module" src="/src/js/pages/confirmar-codigo.js"></script>
   <script type="module">
     import { renderAuthLayout } from '/src/layouts/auth-layout.js';
     
     renderAuthLayout({
-      title: 'VERIFICAÇÃO',
+      title: 'CONFIRMAR CÓDIGO',
       subtitle: 'Enviamos um código de 6 dígitos para o seu e-mail cadastrado.',
       content: `
         <form class="space-y-10 w-full">
@@ -26,8 +27,8 @@
             <input type="text" maxlength="1" class="w-12 h-14 text-center text-2xl font-black bg-white/10 border border-white/20 rounded-xl text-[var(--color-accent)] focus:ring-4 focus:ring-[var(--color-accent)]/30 focus:border-[var(--color-accent)] outline-none transition-all" required>
           </div>
           
-          <button type="button" onclick="location.href='/pages/dashboard/index.html'" class="btn-primary w-full py-4 text-lg shadow-lg shadow-black/20">
-            VALIDAR CÓDIGO
+          <button type="button" class="btn-primary w-full py-4 text-lg shadow-lg shadow-black/20 uppercase tracking-widest">
+            CONFIRMAR
           </button>
         </form>
         

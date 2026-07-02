@@ -16,31 +16,39 @@
       title: 'LOGIN',
       subtitle: '',
       content: `
-        <form class="space-y-6 w-full">
+        <form id="login-form" class="space-y-4 w-full">
           <div class="form-group">
-            <label class="form-label">E-mail ou Usuário</label>
-            <input type="email" placeholder="Seu e-mail ou usuário" class="input-field" required>
+            <label class="form-label">E-mail</label>
+            <input type="email" id="email" placeholder="Seu e-mail" class="input-field" required>
           </div>
           <div class="form-group">
             <label class="form-label">Senha</label>
-            <input type="password" placeholder="Sua senha" class="input-field" required>
+            <div class="password-field">
+              <input type="password" id="password" placeholder="Sua senha" class="input-field" required>
+              <button type="button" class="password-toggle" aria-label="Mostrar senha"></button>
+            </div>
           </div>
           
-          <div class="flex items-center justify-end mt-2">
+          <div class="flex items-center justify-end">
             <a href="/pages/recuperar-senha/index.html" class="text-sm font-bold text-[var(--color-accent)] hover:text-white transition-all cursor-pointer">Esqueceu sua senha?</a>
           </div>
           
-          <button type="button" onclick="location.href='/pages/dashboard/index.html'" class="btn-primary w-full py-4 text-lg shadow-lg shadow-black/20 mt-4">
+          <div class="login-error-slot">
+            <div id="error-message" class="login-error-message"></div>
+          </div>
+
+          <button type="submit" class="btn-primary w-full py-4 text-lg shadow-lg shadow-black/20 mt-2">
             ENTRAR NO SISTEMA
           </button>
         </form>
         
-        <div class="mt-12 text-center text-white/70 text-sm">
+        <div class="mt-8 text-center text-white/70 text-sm">
           Ainda não tem uma conta? 
           <a href="/pages/cadastro/index.html" class="font-black text-[var(--color-accent)] hover:text-white transition-all ml-1 cursor-pointer uppercase tracking-widest">Cadastre-se</a>
         </div>
       `
     });
   </script>
+  <script type="module" src="/src/js/pages/login.js"></script>
 </body>
 </html>

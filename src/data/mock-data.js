@@ -43,15 +43,21 @@ export const MOCK_PETS = [
 
 export const MOCK_VACCINES = [
   { id: 'v1', petId: '1', name: 'Antirrábica', dateApplied: '2026-01-10', nextDose: '2027-01-10', status: 'applied', note: 'Aplicada sem reações.' },
-  { id: 'v2', petId: '1', name: 'V10', dateApplied: '2025-06-12', nextDose: '2026-06-12', status: 'pending', note: 'Reforço anual necessário.' }
+  { id: 'v2', petId: '1', name: 'V10', dateApplied: '2025-06-12', nextDose: '2026-06-12', status: 'pending', note: 'Reforço anual necessário.' },
+  { id: 'v3', petId: '2', name: 'V10', dateApplied: '2025-05-15', nextDose: '2026-05-15', status: 'pending', note: 'Reforço V10 Luna.' },
+  { id: 'v4', petId: '1', name: 'Antirrábica', dateApplied: '2025-07-10', nextDose: '2026-07-10', status: 'pending', note: 'Vacina Antirrábica Rex.' }
 ];
 
 export const MOCK_DEWORMING = [
-  { id: 'd1', petId: '1', name: 'Drontal Plus', dateApplied: '2026-03-15', nextDose: '2026-06-15', frequency: '3 meses', status: 'applied', note: '' }
+  { id: 'd1', petId: '1', name: 'Drontal Plus', dateApplied: '2026-03-15', nextDose: '2026-06-15', frequency: '3 meses', status: 'applied', note: '' },
+  { id: 'd2', petId: '1', name: 'Vermífugo Rex', dateApplied: '2026-02-22', nextDose: '2026-05-22', frequency: '3 meses', status: 'pending', note: 'Vermífugo Rex.' }
 ];
 
 export const MOCK_APPOINTMENTS = [
-  { id: 'a1', petId: '1', reason: 'Check-up Semestral', vet: 'Dr. Lucas', date: '2026-06-20', time: '14:30', status: 'scheduled', note: 'Levar exames anteriores.' }
+  { id: 'a1', petId: '1', reason: 'Check-up Semestral', vet: 'Dr. Lucas', date: '2026-06-20', time: '14:30', status: 'scheduled', note: 'Levar exames anteriores.' },
+  { id: 'a2', petId: '2', reason: 'Check-up Semestral', vet: 'Dra. Maria', date: '2026-06-02', time: '09:30', status: 'scheduled', note: 'Check-up Semestral Luna.' },
+  { id: 'a3', petId: '3', reason: 'Retorno Veterinário', vet: 'Dr. Lucas', date: '2026-08-18', time: '10:00', status: 'scheduled', note: 'Retorno veterinário Pipoca.' },
+  { id: 'a4', petId: '1', reason: 'Consulta Final de Ano', vet: 'Dra. Maria', date: '2026-12-15', time: '16:00', status: 'scheduled', note: 'Check-up de Natal.' }
 ];
 
 export const MOCK_HISTORY = [

@@ -1,19 +1,30 @@
 /**
- * Alert Card Component (Clean SaaS Style)
- * @param {Object} options
- * @param {string} options.title - Alert title
- * @param {string} options.description - Alert description
- * @param {'success' | 'warning' | 'danger' | 'info'} type - Alert type
- * @returns {string} - HTML string
+ * Componente Alert Card (Estilo SaaS)
+ * 
+ * Renderiza um card de alerta informativo com ícone, título e descrição.
+ * Suporta diferentes estados semânticos através do parâmetro `type`.
+ *
+ * @param {Object} options - Parâmetros do componente.
+ * @param {string} options.title - O título do alerta.
+ * @param {string} options.description - A descrição detalhada do alerta.
+ * @param {'success'|'warning'|'danger'|'info'} [options.type='info'] - O tipo semântico que determina cores e ícones.
+ * @returns {string} A representação em string HTML do card de alerta.
  */
 export const AlertCard = ({ title, description, type = 'info' }) => {
+  /** 
+   * Configurações predefinidas mapeando tipos de alerta para classes utilitárias
+   * do Tailwind CSS e caminhos de ícones SVG.
+   */
   const configs = {
     success: { border: 'border-l-success', bg: 'bg-green-50/50', icon: 'text-success', svg: 'M5 13l4 4L19 7' },
     warning: { border: 'border-l-warning', bg: 'bg-amber-50/50', icon: 'text-warning', svg: 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z' },
     danger: { border: 'border-l-danger', bg: 'bg-red-50/50', icon: 'text-danger', svg: 'M6 18L18 6M6 6l12 12' },
     info: { border: 'border-l-info', bg: 'bg-sky-50/50', icon: 'text-info', svg: 'M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z' }
   };
-
+  /** 
+   * Resolve a configuração com base no tipo fornecido, 
+   * utilizando 'info' como padrão caso o tipo seja inválido ou indefinido.
+   */
   const config = configs[type] || configs.info;
 
   return `
@@ -30,3 +41,4 @@ export const AlertCard = ({ title, description, type = 'info' }) => {
     </div>
   `;
 };
+

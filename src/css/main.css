@@ -97,7 +97,49 @@
   }
 
   .app-main {
-    @apply flex-1 pt-[72px] flex flex-col min-w-0;
+    @apply flex-1 pt-[72px] flex flex-col min-w-0 relative overflow-x-hidden;
+    background-color: #F4F7F8;
+  }
+
+  .app-main::before {
+    content: "";
+    @apply fixed pointer-events-none;
+    inset: 72px 0 0 0;
+    z-index: 0;
+
+    background-image: url("/assets/layout/pet-layout.svg");
+    background-repeat: repeat;
+    background-size: 700px auto;
+    background-position: left top;
+    opacity: 0.22;
+
+    mask-image: linear-gradient(
+      to right,
+      black 0%,
+      black 12%,
+      rgba(0, 0, 0, 0.45) 28%,
+      transparent 48%,
+      transparent 52%,
+      rgba(0, 0, 0, 0.45) 72%,
+      black 88%,
+      black 100%
+    );
+
+    -webkit-mask-image: linear-gradient(
+      to right,
+      black 0%,
+      black 12%,
+      rgba(0, 0, 0, 0.45) 28%,
+      transparent 48%,
+      transparent 52%,
+      rgba(0, 0, 0, 0.45) 72%,
+      black 88%,
+      black 100%
+    );
+  }
+
+  .app-main > * {
+    @apply relative z-10;
   }
 
   /* Header Navigation */
@@ -214,6 +256,46 @@
     @apply w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 text-sm placeholder-slate-400 focus:ring-2 focus:ring-[var(--color-accent)] focus:border-transparent transition-all outline-none;
   }
 
+  .password-field {
+    @apply relative w-full;
+  }
+
+  .password-toggle {
+    @apply absolute right-4 top-1/2 -translate-y-1/2 transition-all cursor-pointer p-1 rounded-md focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)];
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    color: #00C7D9;
+  }
+
+  .password-toggle svg {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block;
+    width: 20px;
+    height: 20px;
+    color: #00C7D9;
+    stroke: currentColor;
+  }
+
+  .password-toggle:hover {
+    color: #006F93;
+  }
+
+  .password-toggle:hover svg {
+    color: #006F93;
+    stroke: currentColor;
+  }
+
+  .login-form-panel .password-toggle {
+    @apply transition-all;
+    opacity: 1 !important;
+    visibility: visible !important;
+    color: #00C7D9;
+  }
+
   /* UI Components: Badges */
   .status-badge {
     @apply inline-flex items-center gap-1.5 p-0 bg-transparent border-none rounded-none text-[13px] font-semibold lowercase first-letter:uppercase;
@@ -241,6 +323,114 @@
   .status-block-info { @apply bg-[#FAFAFA] text-[#175CD3] border-l-4 border-l-[#3B82F6] rounded-r-lg; }
   .status-block-warning { @apply bg-[#FAFAFA] text-[#B54708] border-l-4 border-l-[#F59E0B] rounded-r-lg; }
   .status-block-success { @apply bg-[#FAFAFA] text-[#027A48] border-l-4 border-l-[#16A34A] rounded-r-lg; }
+
+  /* Dashboard Care Date Markers (Slim Version) */
+  .care-date-marker {
+    @apply flex flex-col items-center justify-center w-12 shrink-0 relative py-1 bg-slate-50 rounded-lg border border-slate-100;
+  }
+  
+  .care-date-marker.danger { @apply border-red-100 bg-red-50/30; }
+  .care-date-marker.info { @apply border-blue-100 bg-blue-50/30; }
+  .care-date-marker.warning { @apply border-amber-100 bg-amber-50/30; }
+  
+  .care-date-label {
+    @apply text-[9px] font-bold uppercase text-slate-400 tracking-wider mb-0.5 leading-none;
+  }
+
+  .danger .care-date-label { @apply text-red-500/80; }
+  .info .care-date-label { @apply text-blue-500/80; }
+  .warning .care-date-label { @apply text-amber-600/80; }
+  
+  .care-date-day {
+    @apply text-base font-bold text-slate-800 leading-none;
+  }
+
+  /* Activity Items */
+  .activity-item {
+    @apply flex items-start gap-4 p-4 hover:bg-slate-50 rounded-2xl transition-all duration-200 cursor-pointer border border-transparent hover:border-slate-100;
+  }
+
+  .activity-icon {
+    @apply w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 text-sm;
+  }
+
+  /* Weekly Summary Card Header */
+  .card-header-blue {
+    @apply -mx-6 -mt-6 mb-8 px-6 py-4 bg-[#006F93] rounded-t-2xl flex items-center gap-2;
+  }
+
+  .card-header-blue .card-title {
+    @apply text-white mb-0 flex items-center gap-2;
+  }
+
+  .card-header-blue svg {
+    @apply text-white/80 h-4 w-4;
+  }
+
+  /* Calendar Page Layout Stability */
+  .calendar-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    gap: 2rem;
+    align-items: start;
+    width: 100%;
+  }
+
+  .calendar-panel {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .calendar-details-panel {
+    width: 340px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 100px;
+  }
+
+  .calendar-day-card {
+    width: 100%;
+    min-height: 360px;
+    max-height: 520px;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+  }
+
+  /* Custom scrollbar for events list */
+  .calendar-day-card::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .calendar-day-card::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .calendar-day-card::-webkit-scrollbar-thumb {
+    background: #E2E8F0;
+    border-radius: 10px;
+  }
+
+  .calendar-day-card::-webkit-scrollbar-thumb:hover {
+    background: #CBD5E1;
+  }
+
+  @media (max-width: 1024px) {
+    .calendar-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .calendar-details-panel {
+      width: 100%;
+      position: static;
+    }
+
+    .calendar-day-card {
+      min-height: 0;
+      max-height: none;
+      overflow-y: visible;
+      padding-right: 0;
+    }
+  }
 
   /* Navigation */
   .nav-link {
@@ -340,6 +530,129 @@
 
   .login-form-panel .btn-primary {
     @apply bg-[#005B78] hover:bg-[#004E68] text-white border border-white/15;
+  }
+
+  /* Specific styles for Registration to allow scroll on small heights */
+  .register-form-panel {
+    @apply min-h-[100dvh] overflow-y-auto pt-[clamp(48px,8vh,96px)] pb-12;
+    justify-content: flex-start !important;
+  }
+
+  .register-form-panel > div {
+    @apply my-auto;
+  }
+
+  @media (max-height: 760px) {
+    .register-form-panel {
+      @apply pt-14;
+    }
+  }
+
+  /* Stable error message slot for Login */
+  .login-error-slot {
+    min-height: 20px;
+    display: flex;
+    align-items: center;
+    margin-top: 0.5rem;
+    margin-bottom: -0.25rem; /* Compensate for space-y-4 on form */
+  }
+
+  .login-error-message {
+    color: #FCA5A5; /* Soft red for better contrast on blue */
+    font-size: 14px;
+    font-weight: 700;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 160ms ease;
+  }
+
+  .login-error-message.is-visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .form-error-slot {
+    min-height: 22px;
+    display: flex;
+    align-items: center;
+    margin-top: 0.25rem;
+  }
+
+  .form-error-message {
+    color: #FCA5A5;
+    font-size: 14px;
+    font-weight: 600;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 200ms ease, visibility 200ms ease;
+  }
+
+  .form-error-message.is-visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Custom Select Component */
+  .custom-select-wrapper {
+    @apply relative w-full;
+  }
+
+  .custom-select-trigger {
+    @apply w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 text-sm flex items-center justify-between outline-none cursor-pointer transition-all select-none;
+  }
+
+  .custom-select-trigger:focus, .custom-select-trigger.open {
+    @apply border-[var(--color-primary)] ring-4 ring-[var(--color-primary)]/10;
+  }
+
+  .custom-select-trigger.disabled {
+    @apply bg-slate-50 text-slate-400 cursor-not-allowed border-slate-200;
+  }
+
+  .custom-select-options {
+    @apply absolute left-0 right-0 mt-1.5 bg-white border border-slate-200 rounded-xl shadow-xl z-[100] max-h-60 overflow-y-auto p-1;
+    transform: translateY(-10px) scale(0.97);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1), opacity 150ms ease, visibility 200ms ease;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .custom-select-options::-webkit-scrollbar {
+    display: none;
+  }
+
+  .custom-select-options.open {
+    @apply !pointer-events-auto;
+    transform: translateY(0) scale(1);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .custom-select-option {
+    @apply flex items-center justify-between px-3.5 py-2.5 hover:bg-slate-50 text-sm font-medium text-slate-700 rounded-lg cursor-pointer transition-all duration-150;
+  }
+
+  .custom-select-option.selected {
+    @apply bg-[#006F93]/5 text-[#006F93] font-bold;
+  }
+
+  .custom-select-option .check-icon {
+    @apply opacity-0 transition-opacity duration-150;
+  }
+
+  .custom-select-option.selected .check-icon {
+    @apply opacity-100;
+  }
+
+  .custom-select-trigger svg {
+    @apply transition-transform duration-200;
+  }
+
+  .custom-select-trigger.open svg {
+    transform: rotate(180deg);
   }
 }
 

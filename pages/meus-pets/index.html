@@ -11,64 +11,33 @@
 
   <script type="module">
     import { renderAppLayout } from '/src/layouts/app-layout.js';
-    import { PetCard } from '/src/components/pet-card.js';
-    import { EmptyState } from '/src/components/empty-state.js';
-    import { withLoading, SkeletonPets } from '/src/components/skeleton.js';
+    import { SkeletonPets } from '/src/components/skeleton.js';
+    import { initMeusPets } from '/src/js/pages/pets.js';
 
-    // Mock data for pets
-    const pets = [
-      { id: '1', name: 'Rex', species: 'Cachorro', breed: 'Golden Retriever', age: '3 anos', nextVaccine: '12/06/2026', statusText: 'Em dia', statusType: 'success' },
-      { id: '2', name: 'Luna', species: 'Gato', breed: 'Siamês', age: '2 anos', nextVaccine: '15/07/2026', statusText: 'Próxima', statusType: 'warning' },
-      { id: '3', name: 'Pipoca', species: 'Cachorro', breed: 'Poodle', age: '5 anos', nextVaccine: '10/05/2026', statusText: 'Atrasado', statusType: 'danger' }
-    ];
-
-    const hasPets = pets.length > 0;
-
-    const renderContent = () => `
-        <div class="page-header">
-          <div>
-            <h1 class="page-title">Meus Pets</h1>
-            <p class="page-subtitle">Gerencie o histórico e a saúde de todos os seus animais.</p>
-          </div>
-          ${hasPets ? `
-            <a href="/pages/adicionar-pet/index.html" class="btn-primary">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-              </svg>
-              Novo Pet
-            </a>
-          ` : ''}
-        </div>
-
-        ${hasPets ? `
-          <div class="section-grid">
-            ${pets.map(pet => PetCard(pet)).join('')}
-            
-            <a href="/pages/adicionar-pet/index.html" class="card flex flex-col items-center justify-center border-dashed hover:border-[var(--color-primary)] hover:bg-gray-50 transition-colors min-h-[220px]">
-              <div class="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mb-3">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[var(--color-text-muted)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                </svg>
-              </div>
-              <h3 class="text-sm font-semibold text-[var(--color-text)]">Cadastrar pet</h3>
-            </a>
-          </div>
-        ` : `
-          ${EmptyState({
-            title: 'Nenhum pet cadastrado',
-            description: 'Você ainda não possui pets na sua conta. Vamos cadastrar o primeiro?',
-            actionText: 'Cadastrar Pet',
-            actionHref: '/pages/adicionar-pet/index.html'
-          })}
-        `}
-    `;
-
+    // 1. Initial Layout
     renderAppLayout({
       title: 'Meus Pets',
       content: '<div id="pets-content"></div>'
     });
 
-    withLoading('pets-content', SkeletonPets, renderContent, 800);
+    // 2. Fetch and Render Logic
+    async function initMeusPetsPage() {
+      const container = document.getElementById("pets-content");
+      if (!container) return;
+
+      // Show Skeleton
+      container.innerHTML = SkeletonPets();
+
+      // Wait a moment for UX
+      await new Promise(resolve => setTimeout(resolve, 800));
+
+      // Call the actual initialization which fetches and renders inside the container
+      await initMeusPets();
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      initMeusPetsPage();
+    });
   </script>
 </body>
 </html>

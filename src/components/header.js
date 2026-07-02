@@ -1,17 +1,32 @@
 /**
- * Global Header Component (Linear/SaaS inspired)
- * @returns {string} - HTML string
+ * Renderiza a barra de navegação superior global, incluindo o logotipo, links de navegação,
+ * indicador de notificação e um fragmento do perfil do usuário.
+ * @returns {string} 
  */
 export const Header = () => {
+  /** @type {string} O caminho atual da URL para determinar o estado de navegação ativo. */
   const currentPath = window.location.pathname;
-  
+
+  /** 
+   * Array de itens de navegação mapeando rótulos para rotas e ícones. 
+   * @type {Array<{label: string, path: string, icon: string}>}
+   */
   const navItems = [
-    { label: 'Dashboard', path: '/pages/dashboard/index.html', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6' },
+    { label: 'Home', path: '/pages/dashboard/index.html', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6' },
     { label: 'Meus Pets', path: '/pages/meus-pets/index.html', icon: 'M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z' },
     { label: 'Calendário', path: '/pages/calendario/index.html', icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z' },
     { label: 'Adicionar Pet', path: '/pages/adicionar-pet/index.html', icon: 'M12 6v6m0 0v6m0-6h6m-6 0H6' },
   ];
 
+  /**
+   * Renderiza um único link de navegação.
+   *
+   * @param {Object} item - O objeto do item de navegação.
+   * @param {string} item.label - O texto de exibição para o link.
+   * @param {string} item.path - O atributo href para o link.
+   * @param {string} item.icon - Os dados de caminho SVG para o ícone do link.
+   * @returns {string} A representação em string HTML para o elemento âncora.
+   */
   const renderNavLink = (item) => {
     const isActive = currentPath.startsWith(item.path.replace('/index.html', '')) || currentPath === item.path;
     return `
@@ -26,6 +41,38 @@ export const Header = () => {
 
   const isNotificationsActive = currentPath.includes('/pages/notificacoes/');
 
+  /** 
+   * @type {Object} user 
+   * Recupera de forma síncrona e analisa o objeto do usuário armazenado no localStorage.
+   */
+  let user = {};
+  try {
+    const userJson = localStorage.getItem('user');
+    if (userJson) user = JSON.parse(userJson);
+  } catch (e) { }
+
+  /** Extrai detalhes do usuário para construir o nome de exibição. */
+  const first = user.first_name || '';
+  const last = user.last_name || '';
+  const name = user.name || user.perfil?.nome || '';
+  const username = user.username || '';
+
+  /** @type {string} O nome de exibição final construído para o usuário. */
+  const fullName = (first || last) ? (first + ' ' + last).trim() : (name || username || 'Usuário');
+
+  const initialStr = first || name || username || 'U';
+  const initial = initialStr.charAt(0).toUpperCase();
+
+  const userAvatar = user.avatar || user.perfil?.avatar;
+  const API_BASE_URL = "http://127.0.0.1:8000"; // Melhor jogar isso pro .env depois
+
+  /** @type {string} Representação em string HTML da imagem do avatar do usuário ou uma inicial como substituto. */
+  const avatarHtml = userAvatar
+    ? `<img src="${userAvatar.startsWith('http') ? userAvatar : API_BASE_URL + userAvatar}" class="w-full h-full object-cover rounded-xl" alt="Avatar">`
+    : initial;
+
+  const avatarClass = userAvatar ? '' : 'bg-gradient-to-br from-white/20 to-white/5';
+
   return `
     <header class="global-topbar">
       <!-- Left: Brand & Menu -->
@@ -36,14 +83,8 @@ export const Header = () => {
           </svg>
         </button>
         
-        <a href="/pages/dashboard/index.html" class="flex items-center gap-2.5 group">
-          <div class="p-1.5 bg-white/10 rounded-xl group-hover:scale-110 transition-transform shadow-sm">
-            <img src="/assets/logos/lifepet-logo.svg" alt="LifePet Logo" class="h-6 w-6 invert brightness-0">
-          </div>
-          <div class="flex flex-col">
-            <span class="font-bold text-lg text-white tracking-tight leading-none">LifePet</span>
-            <span class="text-[10px] text-white/60 font-medium uppercase tracking-wider">Pet Care</span>
-          </div>
+        <a href="/pages/dashboard/index.html" class="flex items-center group">
+          <img src="/assets/logos/pata_branca.svg" alt="LifePet Logo" class="h-16 w-auto object-contain group-hover:scale-105 transition-transform">
         </a>
       </div>
 
@@ -59,19 +100,18 @@ export const Header = () => {
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
             </svg>
-            <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-[var(--color-accent)] rounded-full border-2 border-[#006F93] animate-pulse"></span>
+            <span id="notification-badge" class="absolute top-1.5 right-1.5 w-2 h-2 bg-[var(--color-accent)] rounded-full border-2 border-[#006F93] animate-pulse hidden"></span>
           </a>
         </div>
 
         <div class="h-8 w-px bg-white/10 mx-1"></div>
 
         <a href="/pages/perfil/index.html" class="flex items-center gap-3 pl-2 group">
-          <div class="hidden md:flex flex-col items-end">
-            <span class="text-sm font-bold text-white leading-none">Kayky</span>
-            <span class="text-[11px] text-white/60 font-medium">Tutor Gold</span>
+          <div class="hidden md:flex flex-col items-end justify-center">
+            <span id="header-user-name" class="text-sm font-bold text-white leading-none">${fullName}</span>
           </div>
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-white/20 to-white/5 text-white border border-white/10 flex items-center justify-center text-sm font-bold shadow-sm group-hover:shadow-md transition-all">
-            K
+          <div id="header-user-avatar" class="w-10 h-10 rounded-xl ${avatarClass} text-white border border-white/10 flex items-center justify-center text-sm font-bold shadow-sm group-hover:shadow-md transition-all">
+            ${avatarHtml}
           </div>
         </a>
       </div>

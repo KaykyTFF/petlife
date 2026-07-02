@@ -5,26 +5,53 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LifePet - Detalhes do Pet</title>
   <link rel="stylesheet" href="/src/css/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 </head>
 <body>
   <div id="app"></div>
 
   <script type="module">
     import { renderAppLayout } from '/src/layouts/app-layout.js';
-    import { withLoading, SkeletonPetDetails } from '/src/components/skeleton.js';
-    import { getPetDetailsHTML, initPetDetailsEvents } from '/src/js/pages/detalhes-pet.js';
+    import { SkeletonPetDetails } from '/src/components/skeleton.js';
+    import { getPetById } from '/src/js/services/petService.js';
+    import { renderPetDetails, renderPetNotFound } from '/src/js/pages/detalhes-pet.js';
 
+    // 1. Initial Layout Render
     renderAppLayout({
       title: 'Prontuário',
       content: '<div id="pet-details-content"></div>'
     });
 
-    withLoading('pet-details-content', SkeletonPetDetails, () => {
-      const html = getPetDetailsHTML();
-      // Use a microtask or small timeout to ensure DOM is updated before attaching events
-      setTimeout(initPetDetailsEvents, 0);
-      return html;
-    }, 1000);
+    // 2. Data Fetch & Render
+    async function initPetDetailsPage() {
+      const container = document.getElementById("pet-details-content") 
+        || document.querySelector(".page-container");
+
+      const params = new URLSearchParams(window.location.search);
+      const petId = params.get("id");
+
+      if (!petId) {
+        renderPetNotFound(container);
+        return;
+      }
+
+      // Show Skeleton
+      container.innerHTML = SkeletonPetDetails();
+
+      // Fetch and Render
+      try {
+        const pet = await getPetById(petId);
+        renderPetDetails(container, pet);
+      } catch (error) {
+        console.error("Erro ao carregar detalhes do pet:", error);
+        renderPetNotFound(container);
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      initPetDetailsPage();
+    });
   </script>
 </body>
 </html>

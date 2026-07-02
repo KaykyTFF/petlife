@@ -9,6 +9,7 @@
 <body>
   <div id="app"></div>
   
+  <script type="module" src="/src/js/pages/recuperar-senha.js"></script>
   <script type="module">
     import { renderAuthLayout } from '/src/layouts/auth-layout.js';
     
@@ -20,6 +21,9 @@
           <div class="form-group">
             <label class="form-label">E-mail de recuperação</label>
             <input type="email" placeholder="seu@email.com" class="input-field" required>
+            <div class="form-error-slot">
+              <span class="form-error-message"></span>
+            </div>
           </div>
           <button type="button" class="btn-primary w-full py-4 text-lg shadow-lg shadow-black/20 mt-4">
             ENVIAR INSTRUÇÕES

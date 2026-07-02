@@ -249,15 +249,15 @@ export const withLoading = (containerId, skeletonTemplate, contentTemplate, dela
   const container = document.getElementById(containerId) || document.querySelector('.page-container');
   if (!container) return;
 
-  // Render Skeleton
+  // 1. renderiza o skeleton antes do conteúdo real chegar da API
   container.innerHTML = skeletonTemplate();
 
-  // Wait and Render Content
+  // 2. aguarda o delay simulado/real e injeta o componente final
   setTimeout(() => {
     container.classList.add('fade-in');
     container.innerHTML = contentTemplate();
-    
-    // Cleanup fade-in class after animation
+
+    // 3. remove a classe de animação depois que finalizou pra não quebrar futuros updates no DOM
     setTimeout(() => container.classList.remove('fade-in'), 500);
   }, delay);
 };

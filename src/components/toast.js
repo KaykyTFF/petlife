@@ -5,6 +5,7 @@
  * @returns {string} - HTML string
  */
 export const Toast = (message, type = 'success') => {
+  // guarda o path dos SVGs pra evitar importar uma biblioteca inteira de ícones
   const icons = {
     success: 'M5 13l4 4L19 7',
     warning: 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z',
@@ -19,6 +20,7 @@ export const Toast = (message, type = 'success') => {
     info: 'bg-sky-600'
   };
 
+  // z-index [200] proposital pra forçar o toast a sempre ficar na frente de modais 
   return `
     <div class="fixed bottom-8 right-8 z-[200] ${bgClasses[type]} text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 animate-bounce-in">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
