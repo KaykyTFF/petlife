@@ -1,6 +1,6 @@
 # PetLife
 
-Sistema de gestão da saúde e bem-estar de animais de estimação. Projeto desenvolvido para as disciplinas de Engenharia de Software II e Banco de Dados II.
+Sistema de gestão da saúde e bem-estar de animais de estimação. Projeto desenvolvido para as disciplinas de Engenharia de Software II, Banco de Dados II e Programação para Internet I.
 
 ## Tecnologias
 
