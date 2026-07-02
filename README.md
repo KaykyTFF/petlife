@@ -4,8 +4,8 @@ Sistema de gestão da saúde e bem-estar de animais de estimação. Projeto dese
 
 ## Tecnologias
 
-- **Frontend**: JavaScript (ES6+), Tailwind CSS, Vite
-- **Backend**: Python 3, Django, Django REST Framework
+- **Frontend**: JavaScript, Tailwind CSS, Vite
+- **Backend**: Python, Django, Django REST Framework
 - **Banco de Dados**: PostgreSQL
 
 ## Estrutura do Projeto
