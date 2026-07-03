@@ -1,7 +1,7 @@
 /**
  * Lógica de renderização da aba de resumo
  */
-import { getVaccines, getDeworming, getAppointments, getHealthHistory } from '../../services/healthService.js';
+import { getVaccines, getDeworming, getAppointments, getHealthHistory, getMedicamentos, getPesos } from '../../services/healthService.js';
 import { formatDateBR, parseLocalDate } from './pet-utils.js';
 import { getResumoSkeleton } from './pet-skeletons.js';
 import { StatusBadge } from '../../../components/status-badge.js';
@@ -17,14 +17,41 @@ export const renderResumo = async (container, petId) => {
   container.innerHTML = getResumoSkeleton();
   
   try {
-      const [vRes, dRes, aRes, hRes] = await Promise.all([
+      const [vRes, dRes, aRes, hRes, mRes, pRes] = await Promise.all([
           getVaccines(petId),
           getDeworming(petId),
           getAppointments(petId),
-          getHealthHistory(petId)
+          getHealthHistory(petId),
+          getMedicamentos(petId),
+          getPesos(petId)
       ]);
 
-      const history = (hRes || []).slice(0, 5);
+      let historyItems = [];
+      
+      if (hRes) {
+          historyItems.push(...hRes.map(h => ({ ...h, badgeType: 'Registro' })));
+      }
+      if (mRes) {
+          historyItems.push(...mRes.map(m => ({
+              descricao: `Medicamento registrado: ${m.nome}`,
+              data: m.data_inicio,
+              badgeType: 'Medicamento',
+              typeCode: 'med'
+          })));
+      }
+      if (pRes) {
+          historyItems.push(...pRes.map(p => ({
+              descricao: `Pesagem registrada: ${p.peso} kg`,
+              data: p.data,
+              badgeType: 'Peso',
+              typeCode: 'peso'
+          })));
+      }
+
+      // Ordena por data decrescente
+      historyItems.sort((a, b) => new Date(b.data || 0) - new Date(a.data || 0));
+
+      const history = historyItems.slice(0, 5);
       const vaccines = vRes || [];
       const deworming = dRes || [];
       const appointments = aRes || [];
@@ -107,7 +134,7 @@ export const renderResumo = async (container, petId) => {
                       <p class="text-[10px] text-slate-400 font-bold uppercase tracking-tight mt-0.5">${formatDateBR(h.data) || h.data}</p>
                     </div>
                   </div>
-                  ${StatusBadge('Registro', 'info')}
+                  ${StatusBadge(h.badgeType || 'Registro', h.typeCode === 'med' ? 'warning' : (h.typeCode === 'peso' ? 'success' : 'info'))}
                 </div>
               `).join('') : '<div class="text-center py-8 text-slate-400 text-sm">Nenhuma atividade recente encontrada.</div>'}
             </div>
