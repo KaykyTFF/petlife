@@ -70,7 +70,8 @@ class Pet(SoftDeleteModel):
     ]
     unidade_idade = models.CharField(max_length=10, choices=UNIDADE_IDADE_CHOICES, default='anos')
     idade = models.PositiveIntegerField(help_text="Valor numérico da idade", validators=[MinValueValidator(0)])
-    peso = models.DecimalField(max_digits=5, decimal_places=2, help_text="Peso em kg", validators=[MinValueValidator(0)])
+    peso = models.DecimalField(max_digits=5, decimal_places=2, help_text="Peso atual em kg", validators=[MinValueValidator(0)])
+    meta_peso = models.DecimalField(max_digits=5, decimal_places=2, help_text="Meta de peso em kg", blank=True, null=True, validators=[MinValueValidator(0)])
     foto = models.ImageField(upload_to='pets/', blank=True, null=True)
     alergias = models.TextField(blank=True, null=True)
     castrado = models.BooleanField(default=False)
@@ -107,3 +108,16 @@ class Pet(SoftDeleteModel):
         self.vacinas.all().delete(user=user)
         self.vermifugos.all().delete(user=user)
         self.consultas.all().delete(user=user)
+
+    def save(self, *args, **kwargs):
+        is_new = self.pk is None
+        super().save(*args, **kwargs)
+        
+        if is_new:
+            # Criar registro de peso inicial ao cadastrar o pet
+            from health.models import Peso
+            Peso.objects.create(
+                pet=self,
+                peso=self.peso,
+                observacoes="Peso inicial (cadastro)"
+            )

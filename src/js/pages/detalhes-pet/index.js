@@ -1,7 +1,7 @@
 /**
  * Orquestração do módulo principal para Detalhes do Pet
  */
-import { showAddVaccineModal, showEditVaccineModal, showDeleteItemModal, showAddDewormingModal, showEditDewormingModal, showAddAppointmentModal, showEditAppointmentModal } from '../../modals/index.js';
+import { showAddVaccineModal, showEditVaccineModal, showDeleteItemModal, showAddDewormingModal, showEditDewormingModal, showAddAppointmentModal, showEditAppointmentModal, showAddPesoModal, showAddMetaPesoModal, showAddMedicamentoModal, showEditMedicamentoModal } from '../../modals/index.js';
 import { handleMarkAppliedAction } from './pet-actions.js';
 import { renderTabContent } from './pet-tabs.js';
 
@@ -24,6 +24,12 @@ export const setupDelegatedEvents = (petId) => {
             showAddDewormingModal(petId, () => renderTabContent('vermifugo', petId));
         } else if (target.closest('#btn-add-appointment') || target.closest('#btn-add-appointment-empty')) {
             showAddAppointmentModal(petId, () => renderTabContent('consultas', petId));
+        } else if (target.closest('#btn-add-medicamento') || target.closest('#btn-add-medicamento-empty')) {
+            showAddMedicamentoModal(petId, () => renderTabContent('medicamentos', petId));
+        } else if (target.closest('#btn-add-peso') || target.closest('#btn-add-peso-empty')) {
+            showAddPesoModal(petId, () => renderTabContent('peso', petId));
+        } else if (target.closest('#btn-meta-peso')) {
+            showAddMetaPesoModal(petId, () => renderTabContent('peso', petId));
         }
         
         // Ações do Item
@@ -33,12 +39,16 @@ export const setupDelegatedEvents = (petId) => {
             if (type === 'vaccine') showEditVaccineModal(id, petId, () => renderTabContent('vacinas', petId));
             else if (type === 'deworming') showEditDewormingModal(id, petId, () => renderTabContent('vermifugo', petId));
             else if (type === 'appointment') showEditAppointmentModal(id, petId, () => renderTabContent('consultas', petId));
+            else if (type === 'medication') showEditMedicamentoModal(id, petId, () => renderTabContent('medicamentos', petId));
         }
 
         const btnDelete = target.closest('.btn-delete-item');
         if (btnDelete) {
             const { id, type } = btnDelete.dataset;
-            showDeleteItemModal(id, type, petId, () => renderTabContent(type === 'vaccine' ? 'vacinas' : type === 'deworming' ? 'vermifugo' : 'consultas', petId));
+            showDeleteItemModal(id, type, petId, () => {
+                const tabMap = { 'vaccine': 'vacinas', 'deworming': 'vermifugo', 'peso': 'peso', 'appointment': 'consultas', 'medication': 'medicamentos' };
+                renderTabContent(tabMap[type], petId);
+            });
         }
 
         const btnMark = target.closest('.btn-mark-item');

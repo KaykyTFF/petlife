@@ -16,6 +16,11 @@ export const formatDateBR = (dateString) => {
   }
 };
 
+export const formatInputDate = (dateString) => {
+  if (!dateString) return '';
+  return dateString.substring(0, 10);
+};
+
 export const formatTimeBR = (timeString) => {
   if (!timeString) return "";
   return timeString.substring(0, 5); // "12:00:00" -> "12:00"

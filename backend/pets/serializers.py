@@ -36,7 +36,7 @@ class PetSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'tutor', 'nome', 'especie', 'raca', 
             'especie_ref', 'raca_ref', 'especie_ref_nome', 'raca_ref_nome',
-            'sexo', 'is_filhote', 'unidade_idade', 'idade', 'peso', 'foto', 'alergias', 'castrado', 
+            'sexo', 'is_filhote', 'unidade_idade', 'idade', 'peso', 'meta_peso', 'foto', 'alergias', 'castrado', 
             'medicamentos_continuos', 'codigo_vinculo', 'created_at', 'updated_at'
         ]
 

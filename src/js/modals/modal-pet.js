@@ -92,7 +92,6 @@ export const showEditPetModal = (pet, onUpdate) => {
         </div>
       </div>
       <div class="form-group"><label class="form-label">Alergias</label><textarea name="allergies" class="input-field h-20">${pet.alergias || ''}</textarea></div>
-      <div class="form-group"><label class="form-label">Medicamentos Contínuos</label><textarea name="continuous_medications" class="input-field h-20">${pet.medicamentos_continuos || ''}</textarea></div>
       
       <div class="sticky bottom-0 pt-4 bg-white border-t border-slate-100">
         <button type="submit" class="btn-primary w-full">Salvar Alterações</button>
@@ -136,8 +135,7 @@ export const showEditPetModal = (pet, onUpdate) => {
         sexo: form.sex.value,
         is_filhote: isFilhoteElement ? isFilhoteElement.value === 'sim' : false,
         castrado: castratedElement ? castratedElement.value === 'sim' : false,
-        alergias: form.allergies.value,
-        medicamentos_continuos: form.continuous_medications.value
+        alergias: form.allergies.value
     };
     
     const data = await handleUpdatePetAction(pet.id, updatedData);

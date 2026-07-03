@@ -139,7 +139,6 @@ export const initAdicionarPet = () => {
         const ageUnit = document.getElementById('pet-age-unit') ? document.getElementById('pet-age-unit').value : 'anos';
         
         const allergies = document.getElementById('pet-allergies').value.trim();
-        const medications = document.getElementById('pet-medications').value.trim();
         
         // Limpar erros anteriores
         document.querySelectorAll('.field-error').forEach(el => el.remove());
@@ -202,7 +201,6 @@ export const initAdicionarPet = () => {
         formData.append('sexo', sex);
         formData.append('castrado', castrated);
         formData.append('alergias', allergies);
-        formData.append('medicamentos_continuos', medications);
         
         if (croppedPhotoBlob) {
             formData.append('foto', croppedPhotoBlob, 'pet.jpg');

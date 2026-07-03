@@ -115,6 +115,49 @@ class Vermifugo(SoftDeleteModel):
             return 'próximo'
         return 'em_dia'
 
+class Medicamento(SoftDeleteModel):
+    """
+    Mantém o registro de medicamentos administrados ao Pet, suportando tratamentos temporários ou de uso contínuo, além de alertas.
+    """
+    pet = models.ForeignKey(Pet, on_delete=models.CASCADE, related_name='medicamentos')
+    nome = models.CharField(max_length=100)
+    dosagem = models.CharField(max_length=50, blank=True, null=True)
+    frequencia = models.CharField(max_length=50, blank=True, null=True)
+    data_inicio = models.DateField(default=timezone.now, db_index=True)
+    data_fim = models.DateField(blank=True, null=True, db_index=True)
+    
+    lembrete_ativo = models.BooleanField(default=True)
+    concluido = models.BooleanField(default=False)
+    observacoes = models.TextField(blank=True, null=True)
+    
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-data_inicio']
+        indexes = [
+            models.Index(fields=['pet', 'data_inicio']),
+        ]
+        verbose_name = 'Medicamento'
+        verbose_name_plural = 'Medicamentos'
+
+    def __str__(self):
+        return f'{self.nome} - {self.pet.nome}'
+
+    @property
+    def status(self):
+        if self.concluido:
+            return 'concluido'
+        
+        today = timezone.now().date()
+        if self.data_inicio > today:
+            return 'agendado'
+            
+        if self.data_fim and self.data_fim < today:
+            return 'finalizado_atrasado' # Era pra ter acabado, mas n marcaram concluido
+            
+        return 'em_uso'
+
 class Consulta(SoftDeleteModel):
     """
     Registro de consultas e compromissos médicos (agendados, cancelados ou concluídos)
@@ -158,6 +201,52 @@ class Consulta(SoftDeleteModel):
         if self.data < today:
             return 'atrasado'
         return 'agendado'
+
+class Peso(SoftDeleteModel):
+    """
+    Registro histórico do peso do Pet.
+    """
+    pet = models.ForeignKey(Pet, on_delete=models.CASCADE, related_name='pesos')
+    peso = models.DecimalField(max_digits=5, decimal_places=2)
+    meta_atingida = models.BooleanField(default=False)
+    data = models.DateField(default=timezone.now, db_index=True)
+    observacoes = models.TextField(blank=True, null=True)
+    
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-data', '-created_at']
+        indexes = [
+            models.Index(fields=['pet', 'data']),
+        ]
+        verbose_name = 'Peso'
+        verbose_name_plural = 'Pesos'
+
+    def __str__(self):
+        return f'{self.peso}kg - {self.pet.nome} em {self.data}'
+
+    def save(self, *args, **kwargs):
+        if not self.pk and self.pet.meta_peso:
+            meta = self.pet.meta_peso
+            if self.peso == meta:
+                self.meta_atingida = True
+                self.pet.meta_peso = None
+                self.pet.save(update_fields=['meta_peso', 'updated_at'])
+                
+        super().save(*args, **kwargs)
+        self._sync_pet_weight()
+
+    def delete(self, user=None, *args, **kwargs):
+        super().delete(user=user, *args, **kwargs)
+        self._sync_pet_weight()
+        
+    def _sync_pet_weight(self):
+        # Atualiza o peso principal do pet com o registro mais recente
+        latest_peso = self.pet.pesos.first()
+        if latest_peso:
+            self.pet.peso = latest_peso.peso
+            self.pet.save(update_fields=['peso', 'updated_at'])
 
 class HistoricoSaude(models.Model):
     """

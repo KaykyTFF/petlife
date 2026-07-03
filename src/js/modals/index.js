@@ -10,3 +10,6 @@ export { showAvatarCropperModal } from './modal-avatar-cropper.js';
 export { showDeleteItemModal } from './modal-delete.js';
 export { showEditProfileModal, showEmailModal, showPasswordModal } from './modal-profile.js';
 export { showDeleteAccountModal } from './modal-delete-account.js';
+export { showAddPesoModal } from './modal-peso.js';
+export { showAddMetaPesoModal } from './modal-meta-peso.js';
+export { showAddMedicamentoModal, showEditMedicamentoModal } from './modal-medicamento.js';

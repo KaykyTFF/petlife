@@ -57,10 +57,6 @@ export const renderPetDetails = (container, pet, onEdit, onDelete) => {
               <span class="text-slate-500 font-medium mb-1">Alergias</span>
               <span class="text-slate-900 font-medium">${pet.alergias || 'Nenhuma'}</span>
             </div>
-            <div class="flex flex-col text-xs mt-3">
-              <span class="text-slate-500 font-medium mb-1">Medicamentos</span>
-              <span class="text-slate-900 font-medium">${pet.medicamentos_continuos || 'Nenhum'}</span>
-            </div>
           </div>
           
           <div class="mt-6 pt-6 border-t border-slate-100">
@@ -82,6 +78,8 @@ export const renderPetDetails = (container, pet, onEdit, onDelete) => {
             <button class="tab-btn" data-tab="vacinas">Vacinas</button>
             <button class="tab-btn" data-tab="vermifugo">Vermífugo</button>
             <button class="tab-btn" data-tab="consultas">Consultas</button>
+            <button class="tab-btn" data-tab="medicamentos">Medicamentos</button>
+            <button class="tab-btn" data-tab="peso">Peso</button>
             <button class="tab-btn" data-tab="historico">Histórico</button>
           </nav>
         </div>

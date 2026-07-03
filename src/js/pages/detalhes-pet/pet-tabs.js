@@ -6,6 +6,8 @@ import { renderVacinas } from './vaccines-tab.js';
 import { renderVermifugo } from './deworming-tab.js';
 import { renderConsultas } from './appointments-tab.js';
 import { renderHistorico } from './history-tab.js';
+import { renderPeso } from './weight-tab.js';
+import { renderMedicamentos } from './medicamentos-tab.js';
 
 export const renderTabContent = (tab, petId) => {
   const content = document.getElementById('tab-content');
@@ -16,6 +18,8 @@ export const renderTabContent = (tab, petId) => {
     case 'vacinas': renderVacinas(content, petId); break;
     case 'vermifugo': renderVermifugo(content, petId); break;
     case 'consultas': renderConsultas(content, petId); break;
+    case 'peso': renderPeso(content, petId); break;
+    case 'medicamentos': renderMedicamentos(content, petId); break;
     case 'historico': renderHistorico(content, petId); break;
   }
 };

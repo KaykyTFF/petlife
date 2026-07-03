@@ -2,7 +2,7 @@
  * Manipuladores de ações para a página de Detalhes do Pet
  */
 import { deletePet, updatePet } from '../../services/petService.js';
-import { deleteVaccine, deleteDeworming, deleteAppointment, updateVaccine, updateDeworming, updateAppointment } from '../../services/healthService.js';
+import { deleteVaccine, deleteDeworming, deleteAppointment, deletePeso, deleteMedicamento, updateVaccine, updateDeworming, updateAppointment, updateMedicamento } from '../../services/healthService.js';
 import { Toast } from '../../../components/toast.js';
 
 export const showToast = (msg, type = 'success') => {
@@ -41,6 +41,8 @@ export const handleDeleteItemAction = async (id, type) => {
         if (type === 'vaccine') await deleteVaccine(id);
         else if (type === 'deworming') await deleteDeworming(id);
         else if (type === 'appointment') await deleteAppointment(id);
+        else if (type === 'peso') await deletePeso(id);
+        else if (type === 'medication') await deleteMedicamento(id);
         
         showToast('Registro excluído', 'success');
         return true;
@@ -55,6 +57,7 @@ export const handleMarkAppliedAction = async (id, type) => {
         if (type === 'vaccine') await updateVaccine(id, { concluido: true });
         else if (type === 'deworming') await updateDeworming(id, { concluido: true });
         else if (type === 'appointment') await updateAppointment(id, { status: 'concluido' });
+        else if (type === 'medication') await updateMedicamento(id, { concluido: true });
         
         showToast('Status atualizado com sucesso!', 'success');
         return true;

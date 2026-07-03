@@ -86,7 +86,7 @@ export const renderNextEvents = (nextEvents, today) => `
               const extra = e.type === 'appointment' ? (e.clinica || 'Clínica') : '';
 
               return `
-                  <div class="flex items-center gap-4 px-6 py-4 hover:bg-slate-50/50 transition-colors">
+                  <a href="/pages/detalhes-pet/index.html?id=${e.pet}" class="flex items-center gap-4 px-6 py-4 hover:bg-slate-50/50 transition-colors cursor-pointer outline-none focus:bg-slate-50">
                     <div class="care-date-marker ${markerClass}">
                       <span class="care-date-label">${label}</span>
                       <span class="care-date-day">${isOverdue ? '--' : d.getDate()}</span>
@@ -98,10 +98,12 @@ export const renderNextEvents = (nextEvents, today) => `
                       </div>
                       <p class="text-xs text-slate-500 font-medium">${petName} ${extra ? '• ' + extra : ''}</p>
                     </div>
-                    <div class="flex items-center gap-2">
-                      <button class="btn-ghost !text-[10px] !px-3">Detalhes</button>
+                    <div class="flex items-center text-slate-300">
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                      </svg>
                     </div>
-                  </div>
+                  </a>
               `;
           }).join('') : '<div class="p-10 text-center"><p class="text-sm text-slate-500 font-medium">Nenhum cuidado agendado para os próximos dias.</p></div>'}
       </div>

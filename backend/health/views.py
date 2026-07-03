@@ -3,10 +3,11 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.exceptions import PermissionDenied
 from django.utils import timezone
-from .models import Vacina, Vermifugo, Consulta, HistoricoSaude, EstadoNotificacao
+from .models import Vacina, Vermifugo, Consulta, HistoricoSaude, EstadoNotificacao, Peso, Medicamento
 from .serializers import (
     VacinaSerializer, VermifugoSerializer, ConsultaSerializer, 
-    HistoricoSaudeSerializer, NotificationSerializer
+    HistoricoSaudeSerializer, NotificationSerializer, PesoSerializer,
+    MedicamentoSerializer
 )
 from .permissions import IsPetOwner
 from core.logger import log_app
@@ -82,6 +83,24 @@ class NotificationViewSet(viewsets.ViewSet):
                     }
                 })
 
+        # Medicamentos (Daily reminder if active and within date range)
+        medicamentos = Medicamento.objects.filter(pet__tutor=user, concluido=False, lembrete_ativo=True)
+        for m in medicamentos:
+            if m.data_inicio <= today and (not m.data_fim or m.data_fim >= today):
+                chave = f"medication:{m.id}:{today}"
+                notifications.append({
+                    "chave": chave,
+                    "tipo": "medication",
+                    "titulo": "Lembrete de Medicamento",
+                    "descricao": f"Administrar {m.nome} para {m.pet.nome}. Frequência: {m.frequencia}." if m.frequencia else f"Administrar {m.nome} para {m.pet.nome} (Uso contínuo).",
+                    "data": today,
+                    "status": "em_uso",
+                    "pet": {
+                        "nome": m.pet.nome,
+                        "foto": m.pet.foto.url if m.pet.foto else None
+                    }
+                })
+
         # 2. Enrich with read state
         read_states = EstadoNotificacao.objects.filter(user=user).values_list('chave_notificacao', 'is_read')
         read_map = dict(read_states)
@@ -118,6 +137,7 @@ class NotificationViewSet(viewsets.ViewSet):
         chaves += [f"vaccine:{v.id}:{v.proxima_data}" for v in Vacina.objects.filter(pet__tutor=user, concluido=False, proxima_data__isnull=False) if (v.proxima_data - today).days <= 7]
         chaves += [f"deworming:{d.id}:{d.proxima_data}" for d in Vermifugo.objects.filter(pet__tutor=user, concluido=False, proxima_data__isnull=False) if (d.proxima_data - today).days <= 7]
         chaves += [f"appointment:{a.id}:{a.data}" for a in Consulta.objects.filter(pet__tutor=user, status='agendado') if (a.data - today).days <= 7]
+        chaves += [f"medication:{m.id}:{today}" for m in Medicamento.objects.filter(pet__tutor=user, concluido=False, lembrete_ativo=True) if m.data_inicio <= today and (not m.data_fim or m.data_fim >= today)]
         
         for chave in chaves:
             EstadoNotificacao.objects.update_or_create(
@@ -300,3 +320,93 @@ class HistoricoSaudeViewSet(viewsets.ModelViewSet):
         if pet_id:
             queryset = queryset.filter(pet_id=pet_id)
         return queryset
+
+class PesoViewSet(viewsets.ModelViewSet):
+    """
+    API Endpoint para gerenciamento do histórico de peso.
+    Garante que o tutor só possa acessar e manipular os pesos de seus próprios pets.
+    """
+    serializer_class = PesoSerializer
+    permission_classes = [permissions.IsAuthenticated, IsPetOwner]
+
+    def get_queryset(self):
+        queryset = Peso.objects.filter(pet__tutor=self.request.user)
+        pet_id = self.request.query_params.get('pet') or self.request.query_params.get('pet_id')
+        if pet_id:
+            queryset = queryset.filter(pet_id=pet_id)
+        return queryset
+
+    def perform_create(self, serializer):
+        pet = serializer.validated_data['pet']
+        if pet.tutor != self.request.user:
+            raise PermissionDenied("Você não tem permissão para adicionar peso a este pet.")
+        peso = serializer.save()
+        log_app(self.request.user.id, "create_peso", peso_id=peso.id, pet_id=pet.id)
+        HistoricoSaude.objects.create(
+            pet=pet,
+            tipo='Peso',
+            titulo='Peso Registrado',
+            descricao=f'Peso de {peso.peso}kg registrado.',
+            data=peso.data
+        )
+
+    def perform_update(self, serializer):
+        peso = serializer.save()
+        log_app(self.request.user.id, "update_peso", peso_id=peso.id, pet_id=peso.pet.id)
+
+    def perform_destroy(self, instance):
+        log_app(self.request.user.id, "delete_peso", peso_id=instance.id, pet_id=instance.pet.id)
+        instance.delete(user=self.request.user)
+
+
+class MedicamentoViewSet(viewsets.ModelViewSet):
+    """
+    API Endpoint para gerenciamento de Medicamentos.
+    Garante que o tutor só possa acessar e manipular os medicamentos de seus próprios pets.
+    """
+    serializer_class = MedicamentoSerializer
+    permission_classes = [permissions.IsAuthenticated, IsPetOwner]
+
+    def get_queryset(self):
+        queryset = Medicamento.objects.filter(pet__tutor=self.request.user)
+        pet_id = self.request.query_params.get('pet') or self.request.query_params.get('pet_id')
+        if pet_id:
+            queryset = queryset.filter(pet_id=pet_id)
+        return queryset
+
+    def perform_create(self, serializer):
+        pet = serializer.validated_data['pet']
+        if pet.tutor != self.request.user:
+            raise PermissionDenied("Você não tem permissão para adicionar medicamento a este pet.")
+        medicamento = serializer.save()
+        log_app(self.request.user.id, "create_medication", medicamento_id=medicamento.id, pet_id=pet.id)
+        HistoricoSaude.objects.create(
+            pet=pet,
+            tipo='Medicamento',
+            titulo='Medicamento Adicionado',
+            descricao=f'O medicamento {medicamento.nome} começou a ser administrado.',
+            data=medicamento.data_inicio
+        )
+
+    def perform_update(self, serializer):
+        medicamento = serializer.save()
+        log_app(self.request.user.id, "update_medication", medicamento_id=medicamento.id, pet_id=medicamento.pet.id)
+        if medicamento.concluido:
+            HistoricoSaude.objects.create(
+                pet=medicamento.pet,
+                tipo='Medicamento',
+                titulo='Tratamento Concluído',
+                descricao=f'O tratamento com {medicamento.nome} foi concluído.',
+                data=timezone.now().date()
+            )
+
+    def perform_destroy(self, instance):
+        log_app(self.request.user.id, "delete_medication", medicamento_id=instance.id, pet_id=instance.pet.id)
+        HistoricoSaude.objects.create(
+            pet=instance.pet,
+            tipo='Medicamento',
+            titulo='Medicamento Removido',
+            descricao=f'O registro do medicamento {instance.nome} foi removido.',
+            data=timezone.now().date()
+        )
+        instance.delete(user=self.request.user)

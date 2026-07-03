@@ -134,6 +134,88 @@ export const getHealthHistory = (petId) => {
   return handle(request(endpoint));
 };
 
+// Pesos (Controle de Peso)
+/**
+ * Obtém a lista de registros de peso.
+ * @param {string|number} [petId] - ID do pet opcional para filtrar.
+ * @returns {Promise<any>} A lista de pesos.
+ */
+export const getPesos = (petId) => {
+  const endpoint = petId ? `/pesos/?pet=${petId}` : "/pesos/";
+  return handle(request(endpoint));
+};
+
+/**
+ * Cria um registro de peso.
+ * @param {object} data - Os dados do peso.
+ * @returns {Promise<any>} Os dados criados.
+ */
+export const createPeso = (data) => handle(request("/pesos/", {
+  method: "POST",
+  body: JSON.stringify(data)
+}));
+
+/**
+ * Atualiza um registro de peso.
+ * @param {string|number} id - O ID do peso.
+ * @param {object} data - Os dados atualizados.
+ * @returns {Promise<any>} Os dados atualizados.
+ */
+export const updatePeso = (id, data) => handle(request(`/pesos/${id}/`, {
+  method: "PATCH",
+  body: JSON.stringify(data)
+}));
+
+/**
+ * Remove um registro de peso.
+ * @param {string|number} id - O ID a ser removido.
+ * @returns {Promise<any>} A resposta da exclusão.
+ */
+export const deletePeso = (id) => handle(request(`/pesos/${id}/`, {
+  method: "DELETE"
+}));
+
+// Medicamentos
+/**
+ * Obtém a lista de medicamentos.
+ * @param {string|number} [petId] - ID do pet opcional para filtrar.
+ * @returns {Promise<any>} A lista de medicamentos.
+ */
+export const getMedicamentos = (petId) => {
+  const endpoint = petId ? `/medicamentos/?pet=${petId}` : "/medicamentos/";
+  return handle(request(endpoint));
+};
+
+/**
+ * Cria um registro de medicamento.
+ * @param {object} data - Os dados do medicamento.
+ * @returns {Promise<any>} Os dados criados.
+ */
+export const createMedicamento = (data) => handle(request("/medicamentos/", {
+  method: "POST",
+  body: JSON.stringify(data)
+}));
+
+/**
+ * Atualiza um registro de medicamento.
+ * @param {string|number} id - O ID do medicamento.
+ * @param {object} data - Os dados atualizados.
+ * @returns {Promise<any>} Os dados atualizados.
+ */
+export const updateMedicamento = (id, data) => handle(request(`/medicamentos/${id}/`, {
+  method: "PATCH",
+  body: JSON.stringify(data)
+}));
+
+/**
+ * Remove um registro de medicamento.
+ * @param {string|number} id - O ID a ser removido.
+ * @returns {Promise<any>} A resposta da exclusão.
+ */
+export const deleteMedicamento = (id) => handle(request(`/medicamentos/${id}/`, {
+  method: "DELETE"
+}));
+
 // Calendário
 /**
  * Obtém os eventos do calendário combinando vacinas, vermífugos e consultas.

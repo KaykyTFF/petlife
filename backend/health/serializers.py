@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Vacina, Vermifugo, Consulta, HistoricoSaude
+from .models import Vacina, Vermifugo, Consulta, HistoricoSaude, Peso, Medicamento
 
 class VacinaSerializer(serializers.ModelSerializer):
     """
@@ -62,6 +62,30 @@ class VermifugoSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError({"proxima_data": "A próxima data não pode ser anterior à última data."})
         return data
 
+class MedicamentoSerializer(serializers.ModelSerializer):
+    """
+    Serializador para gerenciamento de Medicamentos.
+    Retorna o status calculado (em_uso, finalizado_atrasado, concluido) junto aos dados de persistência.
+    """
+    status = serializers.ReadOnlyField()
+    pet_data = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Medicamento
+        fields = [
+            'id', 'pet', 'pet_data', 'nome', 'dosagem', 'frequencia', 
+            'data_inicio', 'data_fim', 'lembrete_ativo',
+            'observacoes', 'concluido', 'status', 'created_at', 'updated_at'
+        ]
+
+    def get_pet_data(self, obj):
+        return {
+            "id": obj.pet.id,
+            "nome": obj.pet.nome,
+            "foto": obj.pet.foto.url if obj.pet.foto else None,
+            "raca": obj.pet.raca
+        }
+
 class ConsultaSerializer(serializers.ModelSerializer):
     """
     Serializador para Agendamento de Consultas.
@@ -76,6 +100,26 @@ class ConsultaSerializer(serializers.ModelSerializer):
             'id', 'pet', 'pet_data', 'motivo', 'clinica', 'veterinario', 
             'data', 'hora', 'status', 'computed_status', 'observacoes', 
             'created_at', 'updated_at'
+        ]
+
+    def get_pet_data(self, obj):
+        return {
+            "id": obj.pet.id,
+            "nome": obj.pet.nome,
+            "foto": obj.pet.foto.url if obj.pet.foto else None,
+            "raca": obj.pet.raca
+        }
+
+class PesoSerializer(serializers.ModelSerializer):
+    """
+    Serializador para gerenciamento de histórico de Pesos.
+    """
+    pet_data = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Peso
+        fields = [
+            'id', 'pet', 'pet_data', 'peso', 'meta_atingida', 'data', 'observacoes', 'created_at'
         ]
 
     def get_pet_data(self, obj):
