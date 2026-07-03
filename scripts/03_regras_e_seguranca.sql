@@ -1,12 +1,5 @@
--- =====================================================================
--- LifePet Care OS — 03: Regras Ativas, Transações e Segurança
--- =====================================================================
-
--- ---------------------------------------------------------------------
--- 1. Regras Ativas e Lógica Interna (Trigger)
--- ---------------------------------------------------------------------
 -- Regra de Negócio: Não permitir agendamento de consultas ou vacinas 
--- para um Pet que foi excluído logicamente (Soft Delete).
+-- para um Pet que foi Soft Delete.
 
 CREATE OR REPLACE FUNCTION block_action_on_deleted_pet()
 RETURNS TRIGGER AS $$
@@ -31,10 +24,6 @@ CREATE TRIGGER trg_check_pet_status_appointment
 BEFORE INSERT OR UPDATE ON health_appointment
 FOR EACH ROW EXECUTE FUNCTION block_action_on_deleted_pet();
 
-
--- ---------------------------------------------------------------------
--- 2. Gerenciamento de Transações (Propriedades ACID)
--- ---------------------------------------------------------------------
 -- Exemplo de Transação Crítica: Deleção lógica de um Pet e cancelamento 
 -- em cascata de suas consultas futuras (Garante Atomicidade e Consistência).
 
@@ -49,11 +38,6 @@ BEGIN; -- Inicia a transação ACID
     SET status = 'cancelado', is_deleted = TRUE
     WHERE pet_id = 1 AND date >= CURRENT_DATE;
 COMMIT; -- Efetiva as alterações se não houver erro (ou ROLLBACK em caso de falha)
-
-
--- ---------------------------------------------------------------------
--- 3. Segurança e Controle de Acesso (DCL)
--- ---------------------------------------------------------------------
 
 -- Criação de um Papel (Role) para o Banco de Dados
 CREATE ROLE petlife_admin_role;

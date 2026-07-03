@@ -1,10 +1,4 @@
--- =====================================================================
--- LifePet Care OS — 01: Estrutura do Banco (DDL)
--- =====================================================================
-
--- ---------------------------------------------------------------------
--- 1. Tabela de Usuários (Tutor/Administrador)
--- ---------------------------------------------------------------------
+-- Tabela de Usuários
 CREATE TABLE auth_user (
     id BIGSERIAL PRIMARY KEY,
     username VARCHAR(150) NOT NULL UNIQUE,
@@ -17,9 +11,7 @@ CREATE TABLE auth_user (
     date_joined TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
--- ---------------------------------------------------------------------
--- 2. Perfis de Tutores
--- ---------------------------------------------------------------------
+-- Perfis de Usuários 
 CREATE TABLE accounts_profile (
     id BIGSERIAL PRIMARY KEY,
     user_id BIGINT NOT NULL UNIQUE,
@@ -31,9 +23,7 @@ CREATE TABLE accounts_profile (
     FOREIGN KEY (user_id) REFERENCES auth_user(id) ON DELETE CASCADE
 );
 
--- ---------------------------------------------------------------------
--- 3. Espécies e Raças do Catálogo
--- ---------------------------------------------------------------------
+-- Espécies
 CREATE TABLE pets_species (
     id BIGSERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE,
@@ -41,6 +31,7 @@ CREATE TABLE pets_species (
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Raças
 CREATE TABLE pets_breed (
     id BIGSERIAL PRIMARY KEY,
     species_id BIGINT NOT NULL,
@@ -51,9 +42,7 @@ CREATE TABLE pets_breed (
     CONSTRAINT unique_breed_per_species UNIQUE (species_id, name)
 );
 
--- ---------------------------------------------------------------------
--- 4. Pets / Animais de Estimação (Com Soft Delete)
--- ---------------------------------------------------------------------
+-- Pets 
 CREATE TABLE pets_pet (
     id BIGSERIAL PRIMARY KEY,
     owner_id BIGINT NOT NULL,
@@ -82,9 +71,7 @@ CREATE TABLE pets_pet (
     CONSTRAINT pet_weight_non_negative CHECK (weight >= 0.00)
 );
 
--- ---------------------------------------------------------------------
--- 5. Registros Médicos (Vacinas e Consultas)
--- ---------------------------------------------------------------------
+-- Registros de Vacinas
 CREATE TABLE health_vaccine (
     id BIGSERIAL PRIMARY KEY,
     pet_id BIGINT NOT NULL,
@@ -98,6 +85,7 @@ CREATE TABLE health_vaccine (
     CONSTRAINT vaccine_next_date_after_last_date CHECK (next_date >= last_date OR next_date IS NULL)
 );
 
+-- Agendamentos de Consultas
 CREATE TABLE health_appointment (
     id BIGSERIAL PRIMARY KEY,
     pet_id BIGINT NOT NULL,
